@@ -1,0 +1,1 @@
+"use strict";(function wrap(Unicode,go){Unicode.Ruler=go.Class({__construct:function __construct(node){var offset;this.node=$(node);offset=this.node.offset();this.top=offset ? offset.top:0;this.height=this.node.height();},__destruct:function __destruct(){}});})(Unicode,go);

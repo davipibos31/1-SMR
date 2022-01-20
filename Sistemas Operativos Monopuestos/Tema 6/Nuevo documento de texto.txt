@@ -1,0 +1,8 @@
+@echo off
+cls
+color fc
+set /p num="inserta un nuemro="
+if (num >= 0) Echo "Positivo"
+
+
+pause > nul

@@ -1,0 +1,32 @@
+var slotId = document.currentScript.getAttribute('slotId');
+var pubId = document.currentScript.getAttribute('adUnitId');
+var zoneId = document.currentScript.getAttribute('siteId');
+StickyAd(slotId,pubId,zoneId);
+function StickyAd(slotId,pubId,zoneId) {
+  document.getElementById(slotId).style.position = "fixed";
+  document.getElementById(slotId).style.bottom = "0";
+  document.getElementById(slotId).style.left = "5px";
+  document.getElementById(slotId).style.zIndex = "10000";
+  document.getElementById(slotId).style.width = "100vw";
+  document.getElementById(slotId).style.backgroundColor = "#ffffff80";
+  document.getElementById(slotId).innerHTML += '<div id="'+pubId+'x728x90x'+zoneId+'x_ADSLOT1" width="728" height="90" clickTrack="%c" style="width:728px;"><\/div>'
+  var script = document.createElement('script');
+  document.getElementById(pubId+'x728x90x'+zoneId+'x_ADSLOT1').style.margin = "auto";
+  script.src='//served-by.pixfuture.com/www/delivery/headerbid_refresh_alex.php?dat='+pubId+'x728x90x'+zoneId+'x_ADSLOT1' + '&innerWidth=' + window.innerWidth + '';
+  document.getElementById(slotId).appendChild(script);
+  document.getElementById(slotId).innerHTML += '<div id="'+ slotId +'-background" style="position: relative;bottom: 110px;left: -9px;width: 728px;margin: auto;height: 0;cursor: pointer;"><button id="pixfuture-close" style="cursor: pointer;background: #000000ba;border: 1px solid #000000ba;color: white;border-radius: 20px;padding: 4px 6px;font-size: 8px; height:19px; width:19px; line-height:8px;" onclick="PixfutureCloseStickyAd();">X<\/button><\/div>';
+  var css = '@media all and (max-device-width: 728px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.9);}} @media all and (min-device-width: 671px) and (max-device-width: 699px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.9);transform-origin: 0 0;}} @media all and (min-device-width: 651px) and (max-device-width: 670px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.88);transform-origin: 0 0;}} @media all and (min-device-width: 631px) and (max-device-width: 650px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.85);transform-origin: 0 0;}} @media all and (min-device-width: 601px) and (max-device-width: 630px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.85);transform-origin: 0 0;}} @media all and (min-device-width: 601px) and (max-device-width: 630px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.8);transform-origin: 0 0;}} @media all and (min-device-width: 560px) and (max-device-width: 600px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.75);transform-origin: 0 0;}} @media all and (min-device-width: 520px) and (max-device-width: 559px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.7);transform-origin: 0 0;}} @media all and (min-device-width: 491px) and (max-device-width: 519px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.65);transform-origin: 0 0;}} @media all and (min-device-width: 451px) and (max-device-width: 490px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.6);transform-origin: 0 0;}} @media all and (min-device-width: 401px) and (max-device-width: 450px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-40px !important;transform: scale(0.55);transform-origin: 0 0;}} @media all and (min-device-width: 371px) and (max-device-width: 400px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.5);transform-origin: 0 0;}} @media all and (min-device-width: 341px) and (max-device-width: 370px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.46);transform-origin: 0 0;}} @media all and (min-device-width: 301px) and (max-device-width: 340px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-52px !important; transform: scale(0.42);transform-origin: 0 0;}} @media all and (max-device-width: 300px) {#'+slotId+'-background{background:transparent !important} #'+slotId+' {bottom:-45px !important; transform: scale(0.4);transform-origin: 0 0;}}',
+  head = document.head || document.getElementsByTagName('head')[0],
+  style = document.createElement('style');
+  head.appendChild(style);
+  style.type = 'text/css';
+  if (style.styleSheet){
+  style.styleSheet.cssText = css;
+  } else {
+  style.appendChild(document.createTextNode(css));
+  }
+}
+function PixfutureCloseStickyAd(){
+  document.getElementById(slotId).innerHTML = "";
+  document.getElementById(slotId).style.display = "none";
+}

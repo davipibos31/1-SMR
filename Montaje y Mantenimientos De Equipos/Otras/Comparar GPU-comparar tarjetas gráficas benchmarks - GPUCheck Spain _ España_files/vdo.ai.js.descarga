@@ -1,0 +1,185 @@
+var vdo_analyticsID = 'UA-113932176-25';
+(function(v, d, o, ai) {
+    ai = d.createElement('script');
+    ai.async = true;
+    ai.src = o;
+    d.head.appendChild(ai);
+})(
+    window,
+    document,
+    'https://www.googletagmanager.com/gtag/js?id=' + vdo_analyticsID
+);
+
+function vdo_analytics() {
+    window.dataLayer.push(arguments);
+
+}
+(function () {
+  window.dataLayer = window.dataLayer || [];
+  vdo_analytics("js", new Date());
+})();
+vdo_analytics('event', 'loaded', { send_to: vdo_analyticsID, value:1, event_category: 'vdoaijs' });
+
+
+
+try {
+
+
+function insideSafeFrame() {
+  try {
+    if(top != self && window.innerWidth > 1) {
+      return true;
+    }
+    if(top.location.href) {
+      return false;
+    }
+  } catch (error) {
+    return true;
+  }
+}
+
+
+
+var w_vdo = (insideSafeFrame()) ? window : window.top,
+d_vdo = w_vdo.document;
+(function (window, document, deps, publisher) {
+  var protocol = window.location.protocol;
+
+  window.vdo_ai_stories = window.vdo_ai_stories || {};
+  window.vdo_ai_stories.cmd = window.vdo_ai_stories.cmd || [];
+
+  function loadStyleSheet(src, id) {
+    var s = document.createElement('link');
+    s.id = id;
+    s.rel = "stylesheet";
+    s.href = protocol + src;
+    document.head.appendChild(s);
+  }
+
+    function loadPlayerDiv(id,parentId,iframeBurst=false) {
+    if (!iframeBurst) {
+      if(document.getElementById(id) == null) {
+        var s = document.createElement('div');
+        s.id = id;
+      } else{
+        var s = document.getElementById(id);
+      }
+       if (parentId != '') {
+         var parentDiv = document.getElementById(parentId);
+         parentDiv.style.display = "block";
+         parentDiv.style.width = "100%";
+         if (document.getElementById(parentId).parentNode.offsetWidth < 350){
+           var margin = (352 - document.getElementById(parentId).parentNode.clientWidth )/2 ;
+           parentDiv.style.marginLeft = '-'+margin + 'px';
+         }
+         parentDiv.appendChild(s);
+       } else{
+         document.body.appendChild(s);
+       }
+
+    } else{
+
+      var parentIframes = top.document.querySelectorAll('iframe');
+      for (var i=0; i < parentIframes.length; i++) {
+        var el = parentIframes[i];
+        if (el.contentWindow === self) {
+            // here you can create an expandable ad
+            var s = document.createElement('div');
+            s.style.zIndex=111;
+            s.style.margin = "0 auto";
+            s.style.display = "block";
+            s.style.position = "relative";
+            s.width = 'fit-content';
+            s.id = id;
+            var googleDiv = el.parentNode;
+
+
+            if (parentId != '') {
+              var parentDiv = document.createElement('div');
+              parentDiv.id = parentId;
+              parentDiv.style.display = "block";
+              parentDiv.style.width = "100%";
+              parentDiv.appendChild(s);
+              googleDiv.insertBefore(parentDiv, el);
+            } else{
+              googleDiv.insertBefore(s, el);
+            }
+
+
+            googleDiv.style.width = "auto";
+            googleDiv.parentNode.style.width='auto';
+            googleDiv.parentNode.style.height='auto';
+        }
+      }
+    }
+  }
+
+  var playerLoaded = false;
+
+  var checkTimer = setInterval(function() {
+      if(window.initVdoStories && typeof window.google != 'undefined' && window.google.ima) {
+	     callAdframe();
+      }
+  }, 1000);
+
+
+  function callAdframe() {
+    if(!playerLoaded) {
+        playerLoaded = true;
+        clearInterval(checkTimer);
+        window.vdo_ai_stories.cmd.push(function() {
+          window.initVdoStories({"desktop":{"show":true,"muted":true,"autoResize":true,"width":640,"height":360,"bottomMargin":10,"topMargin":10,"unitType":"content","leftOrRight":{"position":"right","margin":10},"cancelTimeoutType":{"type":"timeout","eventtype":"readyforpreroll","cancelTimeout":60000},"passback":{"allow":false,"src":"","string":"","timeout":15000},"smallWidth":498,"smallHeight":280,"crossSize":17,"dispose_off":false,"bannerOff":false,"companionOff":false},"mobile":{"dispose_off":false,"show":true,"muted":true,"autoResize":false,"width":333,"height":250,"bottomMargin":10,"topMargin":10,"unitType":"content","leftOrRight":{"position":"right","margin":10},"cancelTimeoutType":{"type":"timeout","eventtype":"readyforpreroll","cancelTimeout":60000},"passback":{"allow":false,"src":"","string":"","timeout":15000},"smallWidth":333,"smallHeight":250,"crossSize":17,"bannerOff":false,"companionOff":false},"bottomMargin":10,"showOnlyFirst":false,"cancelTimeout":10000,"id":"vdo_ai_7345","muted":true,"playsinline":true,"autoplay":true,"preload":true,"video_clickthrough_url":"","content_sources":["videos\/categories\/50MIN.m3u8","videos\/categories\/news2.m3u8","videos\/categories\/News.m3u8","videos\/categories\/sports.m3u8","videos\/categories\/Workout.m3u8","videos\/categories\/entertainment.m3u8"],"pubId":"967","brandLogo":{"img":"","url":""},"coppa":false,"add_on_page_ready":"no","showLogo":true,"adbreak_offsets":[0,5,10],"show_on_ad":false,"close_after_first_ad_timer":0,"domain":"gpucheck.com","path":"\/\/a.vdo.ai\/core\/s-gpucheck\/adframe.js","unitId":"_vdo_ads_player_ai_3480","tag_type":"other","parent_div":"s-gpucheck","hls":false,"media_url":"https:\/\/s.vdo.ai\/","show_on":"ads-ad-started","canAutoplayCheck":true,"bidders":{"0":{"bids":[{"bidder":"appnexus","params":{"placementId":20161360,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-pre-4","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-pre-5","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"rhythmone","params":{"placementId":"204398","floor":0}},{"bidder":"synacormedia","params":{"seatId":"zero1","placementId":"86648","pos":1,"video":{"minduration":15,"maxduration":60,"startdelay":1,"linearity":1},"floor":0}}],"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":20161366}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-pre-6"}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-pre-7"}}]}},"5":{"bids":[{"bidder":"appnexus","params":{"placementId":20161364,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-mid1-3","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-mid1-4","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"rhythmone","params":{"placementId":"204396","floor":0}},{"bidder":"synacormedia","params":{"seatId":"zero1","placementId":"86649","pos":1,"video":{"minduration":15,"maxduration":60,"startdelay":1,"linearity":1},"floor":0}}],"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":20161367}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-mid1-3"}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-mid1-4"}}]}},"10":{"bids":[{"bidder":"appnexus","params":{"placementId":20161365,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-mid2-3","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-v-mid2-4","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true}}},{"bidder":"rhythmone","params":{"placementId":"204397","floor":0}}],"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":20161368}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-mid2-3"}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"s-gpucheck-mid-1-b-mid2-4"}}]}}},"waterfallTags":[],"adx":[],"style":"","storiesData":{"items":[{"img":"\/\/www.gpucheck.com\/static\/gpu_img\/3305.jpg","title":"RTX 2080 Ti Mit Ryzen 5 3600 Benchmarks bei Ultra-Qualit\u00e4t Qualit\u00e4tseinstellungen","description":"","url":"https:\/\/www.gpucheck.com\/de-eur\/gpu\/nvidia-geforce-rtx-2080-ti\/amd-ryzen-5-3600\/"},{"img":"\/\/www.gpucheck.com\/static\/gpu_img\/rtx3080.jpg","title":"RTX 3080 with Core i9-10900K 1080p, 1440p, Ultrawide, 4K benchmarks at Ultra Quality","description":"","url":"https:\/\/www.gpucheck.com\/gpu\/nvidia-geforce-rtx-3080\/"},{"img":"\/\/www.gpucheck.com\/static\/gpu_img\/2862.jpg","title":"GTX 1060 6GB with Ryzen 7 2700X 1080p, 1440p, Ultrawide, 4K benchmarks at Ultra Quality","description":"","url":"https:\/\/www.gpucheck.com\/gpu\/nvidia-geforce-gtx-1060\/amd-ryzen-7-2700x\/"},{"img":"\/\/www.gpucheck.com\/static\/gpu_img\/2939.jpg","title":"RX 570 con i5-3470 benchmarks en Ultra calidad ajustes de calidad","description":"","url":"https:\/\/www.gpucheck.com\/es-eur\/gpu\/amd-radeon-rx-570\/intel-core-i5-3470-3-20ghz\/"}]},"s2s":false,"overflow_size":false,"handle_url_change":true});
+        });
+
+    }
+  }
+
+  function loadScriptSync(src, id) {
+    return new Promise(function(resolve, reject) {
+        
+        if(src.indexOf('ima3.js') > 0 && document.querySelector('script[src*="imasdk.googleapis.com/js/sdkloader/ima3.js"]')) {
+            resolve();
+            return false;
+        }
+        var s = document.createElement("script");
+        s.id = id;
+        var existingScript = document.getElementById(id);
+        
+        s.async = true;
+        s.src = protocol + src;
+        document.body.appendChild(s);
+        s.onload = resolve;
+        s.onerror = reject;
+    })
+  }
+
+
+  function inIframe(){try{return self!==top}catch(r){return!0}}var iframe_Burst=inIframe() ? insideSafeFrame() ? false : true : false;
+
+
+
+  //#region full_dependencies
+  if(typeof window.initVdoStories !== 'function') {  // Check for existing dependencies
+          loadPlayerDiv('_vdo_ads_player_ai_3480','s-gpucheck',iframe_Burst);
+            Promise.all([
+              loadScriptSync(deps + "dependencies_stories_v1/vdo.min.js", "_vdo_ads_css_5654_"),
+              loadScriptSync("//imasdk.googleapis.com/js/sdkloader/ima3.js", "_vdo_ads_sdk_5654_")
+            ]).then(function() {
+               callAdframe();
+          })
+        }
+  //#endregion
+
+})(w_vdo, d_vdo, '//a.vdo.ai/core/', 's-gpucheck');
+
+
+} catch (e) {
+
+
+    vdo_analytics('event', 'Err:' + (btoa(e.message).substr(0,10)), { send_to: vdo_analyticsID, value:1, event_category: 'VDOError' });
+
+
+    var oReq = new XMLHttpRequest();
+    oReq.open('get', '//a.vdo.ai/core/logger.php?msg=' + encodeURIComponent(e.stack)+ '&tag=s-gpucheck&code='+btoa(e.message).substr(0,10) + '&url=' + encodeURIComponent(location.href)  + '&func=vdo.ai.js', true);
+    oReq.send();
+}

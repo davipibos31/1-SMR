@@ -1,0 +1,38 @@
+(function (ut){var UINode=document.querySelector('#js-char-popup-ui');var popupArea=document.querySelector('#js-char-popup-area');if (UINode && popupArea){var touchScreen=("ontouchstart" in document.documentElement) ? true:false;var escapeHTML=function(unsafe){return unsafe
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");};var isCopiedSymbol=function(num){return !(num < 32
+|| num===127
+|| (num >=128 && num < 160)
+|| (num >=55296 && num <=57343)
+|| num===1564);};var prepareContent=function(reference){var data=JSON.parse(reference.getAttribute('data-template'));if (data){var symbolNum=data['html_code'].match( /\d+/g );var content=`<div id="js-char-popup-template" class="char">
+<div class="char__content">
+<div class="char__header">
+${data.image ? `<img class="char__image" src="${data.image}" alt="${data.symbol}">`:`<span class="vchar ${data['css_class'] ? data['css_class']:''}">${data.symbol}</span>`}</div>
+<div class="desc">
+<a href="${data.url}">
+${ut.common.wrapLastWordWithNoSpace(data.title,'<span class="fa">&nbsp;&#61923;</span>')}</a>
+</div>
+<div class="char__codes">
+<div class="char__code-names">
+<div class="char__unicode-num">${UINode.dataset.unicodeNumber}:</div>
+<div class="char__html-code">${UINode.dataset.htmlCode}:</div>
+</div>
+<div class="char__code-values">
+<div class="unicode-num"><span class="code">${escapeHTML(data.number)}</span></div>
+<div class="html-code"><span class="code">${escapeHTML(data['html_code'])}</span></div>
+</div>
+</div>
+</div>
+${isCopiedSymbol(symbolNum) ?
+`<div class="char__copy">
+<input type="button" class="b-copy-char-button b-copy-char-button--block symbol-copy"
+data-goal="copy_symbol"
+data-copy="${data.symbol}"
+data-symbol="${data.symbol}"
+value="${UINode.dataset.buttonText}">
+</div>`:''}</div>`
+return content;}return false;};if (touchScreen){popupArea.addEventListener('click',function(event){if (event.target.classList.contains('js-char-popup-item') || event.target.parentNode.classList.contains('js-char-popup-item')){event.preventDefault();event.stopPropagation();}});}if (window.innerWidth < 768){var tippyInstance=tippy(popupArea,{theme:'light-border',interactive:true,arrow:false,allowHTML:true,trigger:'manual',appendTo:()=> document.body,content(reference){return prepareContent(reference);},});var overlayFragment=document.createRange().createContextualFragment(`<div class="js-char-popup-overlay" style="display:none;"></div>`)
+document.body.appendChild(overlayFragment);var overlay=document.body.querySelector('.js-char-popup-overlay');var hideTippy=function(){tippyInstance.hide();overlay.style.display="none";};overlay.addEventListener('click',hideTippy);var showTippy=function(reference){tippyInstance.setContent(prepareContent(reference));overlay.style.display="block";tippyInstance.show();};popupArea.addEventListener('click',function(event){if (event.target.classList.contains('js-char-popup-item')){showTippy(event.target);}else if (event.target.parentNode.classList.contains('js-char-popup-item')){showTippy(event.target.parentNode);}});}else{var tippyInstance=tippy.delegate(popupArea,{theme:'light-border',interactive:true,arrow:false,allowHTML:true,placement:'right-start',target:'.js-char-popup-item',delay:[400,200],duration:200,appendTo:()=> document.body,content(reference){return prepareContent(reference);},});}}})(ut);

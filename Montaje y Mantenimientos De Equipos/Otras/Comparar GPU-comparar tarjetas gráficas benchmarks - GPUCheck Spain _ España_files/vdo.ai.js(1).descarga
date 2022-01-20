@@ -1,0 +1,179 @@
+var vdo_analyticsID = 'UA-113932176-25';
+(function(v, d, o, ai) {
+    ai = d.createElement('script');
+    ai.async = true;
+    ai.src = o;
+    d.head.appendChild(ai);
+})(
+    window,
+    document,
+    'https://www.googletagmanager.com/gtag/js?id=' + vdo_analyticsID
+);
+
+function vdo_analytics() {
+    window.dataLayer.push(arguments);
+
+}
+(function () {
+  window.dataLayer = window.dataLayer || [];
+  vdo_analytics("js", new Date());
+})();
+vdo_analytics('event', 'loaded', { send_to: vdo_analyticsID, value:1, event_category: 'vdoaijs' });
+
+
+
+try {
+
+var w_vdo = (top == self) ? window : window.top,
+d_vdo = w_vdo.document;
+(function (window, document, deps, publisher) {
+   var protocol = window.location.protocol;
+
+  window.vdo_ai_ = window.vdo_ai_ || {};
+  window.vdo_ai_.cmd = window.vdo_ai_.cmd || [];
+
+  function loadStyleSheet(src, id) {
+    var s = document.createElement('link');
+    s.id = id;
+    s.rel = "stylesheet";
+    s.href = protocol + src;
+    document.head.appendChild(s);
+  }
+
+
+  function loadPlayerDiv(id,parentId,iframeBurst=false) {
+    if (!iframeBurst) {      
+      if(document.getElementById(id) == null) {
+        var s = document.createElement('div');
+        s.id = id;
+      } else{
+        var s = document.getElementById(id);
+      }
+       if (parentId != '') {
+         var parentDiv = document.getElementById(parentId);
+         parentDiv.style.display = "block";
+         parentDiv.style.width = "100%";
+         if (document.getElementById(parentId).parentNode.offsetWidth < 350){
+           var margin = (352 - document.getElementById(parentId).parentNode.clientWidth )/2 ;
+           parentDiv.style.marginLeft = '-'+margin + 'px';
+         }
+         parentDiv.appendChild(s);
+       } else{
+         document.body.appendChild(s);
+       }
+
+    } else{
+
+      var parentIframes = top.document.querySelectorAll('iframe');
+      for (var i=0; i < parentIframes.length; i++) {
+        var el = parentIframes[i];
+        if (el.contentWindow === self) {
+            // here you can create an expandable ad
+            var s = document.createElement('div');
+            s.style.zIndex=111;
+            s.style.margin = "0 auto";
+            s.style.display = "block";
+            s.style.position = "relative";
+            s.width = 'fit-content';
+            s.id = id;
+            var googleDiv = el.parentNode;
+
+
+            if (parentId != '') {
+              var parentDiv = document.getElementById(parentId);
+              parentDiv.style.display = "block";
+              parentDiv.style.width = "100%";
+              parentDiv.appendChild(s);
+              googleDiv.insertBefore(parentDiv, el);
+            } else{
+              googleDiv.insertBefore(s, el);
+            }
+
+
+            googleDiv.style.width = "auto";
+            googleDiv.parentNode.style.width='auto';
+            googleDiv.parentNode.style.height='auto';
+        }
+      }
+    }
+  }
+
+  function loadScriptSync(src, id) {
+    var s = document.createElement('script');
+    s.id = id;
+    s.async = false;
+    s.src = protocol + src;
+    document.body.appendChild(s);
+  }
+
+  function inIframe(){try{return self!==top}catch(r){return!0}}var iframe_Burst=inIframe();
+  loadPlayerDiv('_vdo_ads_player_ai_696','vdo_ai_div',iframe_Burst);
+  // loadPlayerDiv('_vdo_ads_player_ai_696');
+
+      //#region full_dependencies
+
+              var playerLoaded = false;
+
+              var checkTimer = setInterval(function() {
+                  if(window.initVdo && typeof window.google != 'undefined' && window.google.ima) {
+                    callAdframe();
+                  }
+              }, 1000);
+
+
+              function callAdframe() {
+                if(!playerLoaded) {
+                    playerLoaded = true;
+                    clearInterval(checkTimer);
+
+                    window.vdo_ai_.cmd.push(function() {
+                      window.initVdo({"desktop":{"show":true,"muted":true,"autoResize":true,"width":498,"height":280,"bottomMargin":10,"topMargin":10,"unitType":"floating","leftOrRight":{"position":"right","margin":10},"cancelTimeoutType":{"type":"timeout","eventtype":"readyforpreroll","cancelTimeout":120000},"passback":{"allow":false,"src":"","string":"","timeout":15000},"smallWidth":498,"smallHeight":280,"crossSize":17,"dispose_off":false,"bannerOff":false,"companionOff":false},"mobile":{"dispose_off":false,"show":true,"muted":true,"autoResize":false,"width":333,"height":250,"bottomMargin":10,"topMargin":10,"unitType":"content","leftOrRight":{"position":"left","margin":10},"cancelTimeoutType":{"type":"timeout","eventtype":"readyforpreroll","cancelTimeout":30000},"passback":{"allow":false,"src":"","string":"","timeout":15000},"smallWidth":333,"smallHeight":250,"crossSize":17,"bannerOff":false,"companionOff":false},"bottomMargin":10,"showOnlyFirst":false,"cancelTimeout":10000,"id":"vdo_ai_6964","muted":true,"playsinline":true,"autoplay":true,"preload":true,"video_clickthrough_url":"","content_sources":["videos\/categories\/50MIN.m3u8","videos\/categories\/news2.m3u8","videos\/categories\/News.m3u8","videos\/categories\/sports.m3u8","videos\/categories\/Workout.m3u8","videos\/categories\/entertainment.m3u8"],"pubId":"967","brandLogo":{"img":"","url":""},"coppa":false,"add_on_page_ready":"no","showLogo":true,"adbreak_offsets":[0,5,10],"show_on_ad":true,"close_after_first_ad_timer":0,"domain":"gpucheck.com","path":"\/\/a.vdo.ai\/core\/gpucheck\/adframe.js","unitId":"_vdo_ads_player_ai_696","tag_type":"other","hls":false,"media_url":"https:\/\/s.vdo.ai\/","show_on":"ads-ad-started","canAutoplayCheck":true,"parent_div":"vdo_ai_div","bidders":{"0":{"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":18812051,"floor":0}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_pre_336x280_ATF","floor":"0"}}]},"bids":[{"bidder":"appnexus","params":{"placementId":18851514,"floor":0,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_pre_0x0_ATF","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true},"floor":"0"}},{"bidder":"rhythmone","params":{"placementId":"204398","floor":0}},{"bidder":"synacormedia","params":{"seatId":"zero1","placementId":"86648","pos":1,"video":{"minduration":15,"maxduration":60,"startdelay":1,"linearity":1},"floor":0}}]},"5":{"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":18812054,"floor":0}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_mid1_336x280_ATF","floor":"0"}}]},"bids":[{"bidder":"appnexus","params":{"placementId":18851512,"floor":0,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_mid1_0x0_ATF","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true},"floor":"0"}},{"bidder":"rhythmone","params":{"placementId":"204396","floor":0}},{"bidder":"synacormedia","params":{"seatId":"zero1","placementId":"86649","pos":1,"video":{"minduration":15,"maxduration":60,"startdelay":1,"linearity":1},"floor":0}}]},"10":{"banner":{"prebid":[{"bidder":"appnexus","params":{"placementId":18812056,"floor":0}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_mid2_336x280_ATF","floor":"0"}}]},"bids":[{"bidder":"appnexus","params":{"placementId":18851508,"floor":0,"video":{"skippable":true,"playback_method":null}}},{"bidder":"pubmatic","params":{"publisherId":"159175","adSlot":"gpucheck.com_mid2_0x0_ATF","video":{"mimes":["video\/mp4","video\/webm","application\/javascript","video\/ogg"],"skippable":true},"floor":"0"}},{"bidder":"rhythmone","params":{"placementId":"204397","floor":0}}]}},"waterfallTags":{"0":["vast.aniview.com\/api\/adserver61\/vast\/?AV_PUBLISHERID=5db075ae28a0610a7120a21b&AV_CHANNELID=5db73ac828a0611add12ca1a&AV_URL=http%3A%2F%2Fgpucheck.com&cb=123&AV_WIDTH=419&AV_HEIGHT=236"],"5":["vast.aniview.com\/api\/adserver61\/vast\/?AV_PUBLISHERID=5db075ae28a0610a7120a21b&AV_CHANNELID=5def80f428a0614fcc58936f&AV_URL=http%3A%2F%2Fgpucheck.com&cb=123&AV_WIDTH=419&AV_HEIGHT=236"],"10":["vast.aniview.com\/api\/adserver61\/vast\/?AV_PUBLISHERID=5db075ae28a0610a7120a21b&AV_CHANNELID=5def812f28a0614fcc589372&AV_URL=http%3A%2F%2Fgpucheck.com&cb=123&AV_WIDTH=419&AV_HEIGHT=236"]},"adx":[],"style":"","s2s":false,"overflow_size":false,"handle_url_change":true});
+                    });
+
+                }
+              }
+
+              function loadScriptSyncNew(src, id) {
+                return new Promise(function(resolve, reject) {
+
+                    if(src.indexOf('ima3.js') > 0 && document.querySelector('script[src*="imasdk.googleapis.com/js/sdkloader/ima3.js"]')) {
+                        resolve();
+                        return false;
+                    }
+                    var s = document.createElement("script");
+                    s.id = id;
+                    var existingScript = document.getElementById(id);
+
+                    s.async = true;
+                    s.src = protocol + src;
+                    document.body.appendChild(s);
+                    s.onload = resolve;
+                    s.onerror = reject;
+                })
+              }
+
+              if(typeof window.initVdo !== 'function') {  // Check for existing dependencies
+            Promise.all([
+              loadScriptSyncNew(deps + "dependencies_hbv4/vdo.min.js", "_vdo_ads_css_5654_"),
+              loadScriptSyncNew("//imasdk.googleapis.com/js/sdkloader/ima3.js", "_vdo_ads_sdk_5654_")
+            ]).then(function() {
+               callAdframe();
+          })
+        }
+
+
+    //#endregion
+
+})(w_vdo, d_vdo, '//a.vdo.ai/core/', 'gpucheck');
+
+
+} catch (e) {
+
+
+    vdo_analytics('event', 'Err:' + (btoa(e.message).substr(0,10)), { send_to: vdo_analyticsID, value:1, event_category: 'VDOError' });
+
+
+    var oReq = new XMLHttpRequest();
+    oReq.open('get', '//a.vdo.ai/core/logger.php?msg=' + encodeURIComponent(e.stack)+ '&tag=gpucheck&code='+btoa(e.message).substr(0,10) + '&url=' + encodeURIComponent(location.href)  + '&func=vdo.ai.js', true);
+    oReq.send();
+}

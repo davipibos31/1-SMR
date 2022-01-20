@@ -1,0 +1,278 @@
+
+(function (w) {
+/*tagconfig*/
+
+var a = {
+		publisherId: "5d42e66f28a061700900dae3",
+		channelId: "5d42e94728a061763725c8f8",
+		width: 100,
+		height: 0,
+		errorLimit: 99,
+		passbackUrl: "",
+		passbackpriority: false,
+		lastFrame: false,
+		HD: !0,
+		autoPlay: false,
+		Preroll: 0,
+		midrolltime: 5,
+		vastRetry: 2,
+		loop: true,
+		logo: true,
+		timelineMode: "overlay",
+		soundButton: true,
+		pauseButton: true,
+		maximp: 1000,
+		maxrun: 9999,
+		preloader: {
+			type: "",
+			link: "",
+			clickthrough: ""
+		},
+		customLogo: {
+			link: "https://play.selectmedia.asia/58fcbed1073ef420086c9d08/5942ae55073ef42ccf4fae29/selectmedia-logo56x10.png",
+			height: "11",
+			width: "60",
+			text: "",
+			clickthrough: "https://www.selectmedia.asia/"
+		},
+		playOnView: true,
+		pauseOnBlur: false,
+		openAnim: false,
+		hideInitPreloader: true,
+		unMuteOnMouseEnter: false,
+		floating: {
+			size: 0,
+			right: 0,
+			bottom: 0
+		},
+		sticky: {
+			size: 0.6,
+			position: "Bottom-Right",
+			right: 0,
+			bottom: 0,
+			top: 0,
+			left: 0
+		},
+		pauseOnUnseen: false,
+		closeButton: false,
+		skipTimer: 0,
+		skip: false,
+		skipText: "",
+		scriptId: "aniviewJS944844420",
+		posId: "",
+		posTag: "",
+		posClass: "",
+		posSelector: "",
+		posDfp1x1: false,
+		posType: "in",
+		maxWidth: "640",
+		templateType: "1",
+		position: "aniplayer_aniviewJS944844420"
+};
+
+/*tagconfig*/
+
+var st = {
+	unique: function(){
+        if(!this.win.aniplayerPos)
+            this.win.aniplayerPos = {};
+        if(this.win.aniplayerPos[a.position])
+            return false;
+        this.win.aniplayerPos[a.position] = true;
+        return true;
+    },
+    findWin: function() {
+        try {
+            if(( !a.posDfp1x1 && !a.posClass && !a.posSelector && !a.posId && !a.posTag) || (w === top) || !w.frameElement) {
+            	this.doc = document;
+            	this.win = w;
+			} else if(a.posDfp1x1 && w.frameElement) {
+            	this.win = parent;
+            	this.doc = parent.document;
+			} else {
+                this.win = top;
+                this.doc = top.document;
+			}
+        } catch (f) {
+            this.doc = document;
+            this.win = w;
+        }
+    },
+	postCreate: function(){},
+	retry: function(){
+        if(this.retryCnt++ > a.timeout)
+        	return;
+		var that = this;
+        setTimeout(function() {
+            that.position();
+        }, 250);
+	},
+	create: function(p, n) {
+        var d1 = document.createElement("div");
+        d1.style.width = "100%";
+        d1.style.margin = "0 auto";
+        if(a.maxWidth)
+            d1.style.maxWidth = "" + a.maxWidth + "px";
+        d1.style.position = "relative";
+
+        var d2 = document.createElement("div");
+        d2.id = "aniBox";
+        d2.style.height = "1px";
+
+        var d3 = document.createElement("div");
+        d3.id = ""+a.position;
+        if(p === this.doc || p===this.doc.head)
+            p = this.doc.body;
+        if(n)
+            p.insertBefore(d1, n);
+        else
+            p.appendChild(d1);
+        d1.appendChild(d2);
+        d2.appendChild(d3);
+        this.postCreate(d1);
+	},
+    position: function() {
+        var p = this.doc;
+        var isScp = false;
+        if(a.posSelector) {
+            p = this.doc.querySelector(a.posSelector);
+            if(!p) {
+                this.retry();
+                return;
+            }
+        }
+        if(a.posId) {
+            p = this.doc.getElementById(a.posId);
+            if(!p) {
+                this.retry();
+                return;
+            }
+        }
+        if(a.posTag) {
+            var c = a.posTag.split("#");
+            if(c && c.length == 2) {
+                var e = p.getElementsByTagName(c[0]);
+                if(e.length == 0) {
+                    this.retry();
+                    return;
+                }
+                p = e[Math.min(c[1] - 1, e.length-1)];
+            }
+        }
+        if(a.posClass) {
+            var c = a.posClass.split("#");
+            var e = 1;
+            if(c.length == 2)
+                e = c[1];
+            var f = p.getElementsByClassName(c[0]);
+            if(f.length > 0)
+                p = f[Math.min(e-1, f.length-1)];
+            if(!p) {
+                this.retry();
+                return;
+			}
+        }
+        if(a.posDfp1x1 && window.frameElement) {
+            n = window.frameElement.parentNode.parentNode;
+            p = n.parentNode;
+        }
+        var n;
+        if(p === this.doc) {
+            n = this.doc.getElementById(a.scriptId);
+            if(n)
+                p = n.parentNode;
+        }
+        if(p === this.doc.head) {
+            n = null;
+            p = this.doc;
+        }
+        if(a.posType && a.posType !== "in" && !n) {
+            if(a.posType === "after" && p.nextSibling)
+                p = p.nextSibling;
+            n = p;
+            p = n.parentNode;
+        }
+        this.create(p, n);
+        this.load();
+    },
+	load: function(){
+		var that = this;
+        var scp = this.doc.createElement("script");
+        scp.src = (a.baseJsUrl || "https://player.aniview.com/script/6.1/") + "player.js";
+        scp.onload = function(){
+        	that.start();
+		};
+        scp.async = true;
+        this.doc.body.appendChild(scp)
+	},
+	postStart: function(p){
+	},
+    getAttr: function(){
+        if(a.scriptId) {
+            var s = document.getElementById(a.scriptId);
+            if(s) {
+                for (var i = 0, t = s.attributes; i < s.attributes.length; i++){
+                    if(t[i].nodeName && t[i].nodeName.indexOf("data-") == 0) {
+                        var n = t[i].nodeName.replace("data-", "");
+                        a[n] = t[i].nodeValue;
+                    }
+                }
+                if(s.src) {
+                    var p = s.src.indexOf("?");
+                    if(p > 10) {
+                        var r = (s.src.substring(p+1, s.src.length));
+                        a.ref1 = (a.ref1 || "") + "&" + (r || "");
+                    }
+                }
+            }
+        }
+	},
+	start: function(){
+        var b;
+        this.getAttr();
+        try{
+            if (this.win.avPlayer)
+                b = new this.win.avPlayer(a);
+            else
+            if(window.avPlayer)
+                b = new avPlayer(a);
+            else
+                b = top.avPlayer(a);
+        } catch(exp) {
+            b = new avPlayer(a);
+        }
+        if(this.pbjs)
+            this.pbjs.preparePlayer(b);
+
+        if(a.templateType != 0)
+            b.startTemplate(this.doc.getElementById(a.position).parentNode);
+        b.play(a);
+        this.postStart(b);
+	},
+	preRun: function(){},
+	run: function(){
+		this.preRun();
+        this.findWin();
+        if(!this.doc.body) {
+            this.doc.addEventListener('DOMContentLoaded', function () {
+                st.run();
+            });
+            return;
+        }
+		if(this.unique()) {
+            (new Image).src = "https://"+(a.trackDomain ||"track1.aniview.com")+"/track?pid=" + a.publisherId + "&cid=" + a.channelId + "&e=playerLoaded&cb=" + Date.now();
+            this.retryCnt = 0;
+            this.timeout = a.posTimeout || 40;
+
+            var AV_topElement;
+            this.pbjs = window.aniviewRenderer && window.aniviewRenderer.units && window.aniviewRenderer.units[a.scriptId];
+            if(this.pbjs)
+                this.pbjs.prepareConfig(a);
+            this.position();
+		}
+	}
+};
+st.run();
+
+})(window);
+

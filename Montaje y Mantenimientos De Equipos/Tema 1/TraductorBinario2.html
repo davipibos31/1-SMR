@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Number converter - hex, octal, binary | Coder&rsquo;s Toolbox</title>
+<meta charset="utf-8">
+<link rel="icon" href="/favicon.ico" type="image/png">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<link rel="publisher" href="https://plus.google.com/117075427003502266612">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    background-color: #eb9316;
+    color: #333;
+    margin: .7em 2.4em;
+    padding: 0;
+    font-family: helvetica, arial;
+    font-size: 16px;
+    line-height: 135%;
+}
+@media only screen and (min-width: 800px) and (min-height: 600px) {
+    body {
+        font-size: 17px;
+    }
+}
+@media only screen and (min-width: 1000px) and (min-height: 800px) {
+    body {
+        font-size: 18px;
+    }
+}
+#home {
+    position: absolute;
+    margin-top: -1.2em;
+    margin-left: 1.4em;
+    font-size: 120%;
+}
+#home a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+h1 {
+    font-size: 160%;
+    margin: 1.3em 0 .9em 0;
+}
+#main {
+    background: white;
+    border-radius: 0 0 2em 2em;
+    z-index: 0;
+    padding: .7em 2em;
+    text-align: center;
+}
+#main a {
+    color: #eb9316;
+}
+#main a:hover, #main a:active {
+    color: #333;
+}
+#handle-wrapper {
+    width: 40%;
+    margin-left: 30%;
+}
+#handle {
+    border: 2em white;
+    border-style: solid solid none;
+    border-radius: 2em 2em 0 0;
+    height: 2em;
+}
+#lid {
+    min-height: 2em;
+    background: white;
+    margin-bottom: .5em;
+    border: 2em white;
+    border-radius: 2em 2em 0 0;
+    border-style: solid solid none;
+}
+#lock {
+    background-color: #eb9316;
+    position: absolute;
+    left: 50%;
+    width: 20%;
+    margin-top: -1.5em;
+    margin-left: -10%;
+    height: 2.5em;
+    border: 2em #eb9316;
+    border-radius: 2em;
+    z-index: 10;
+}
+
+#menubar {
+    margin: -1.3em -1.5em 0;
+    padding: 0 0 .8em;
+    text-align: center;
+}
+#menubar li {
+    display: inline;
+    line-height: 1.7em;
+}
+#menubar a {
+    color: inherit;
+    text-decoration: none;
+}
+#menubar a:hover, #menubar a:active {
+    color: #eb9316;
+}
+
+#banner {
+    margin: 2em 0 1.5em;
+}
+#footer {
+    text-align: center;
+    color: white;
+}
+#footer a {
+    color: white;
+}
+
+.accesskey {
+    text-decoration: underline;
+}
+
+table.horizontal {
+    margin-left: auto;
+    margin-right: auto;
+}
+table.horizontal th {
+    text-align: right;
+    padding-right: .5em;
+    font-weight: normal;
+}
+table.horizontal td {
+    text-align: left;
+}
+
+label {
+    white-space: nowrap;
+}
+
+.example {
+    color: green;
+}
+
+textarea {
+    width: 100%;
+}
+
+.disabled {
+    color: GrayText;
+}
+
+/* jQuery */
+.ui-wrapper {
+        border: 1px solid black;
+}
+.ui-wrapper input, .ui-wrapper textarea {
+        border: 0;
+}
+@media only screen and (max-width: 360px) {
+    body {
+        margin: 2em 1em;
+    }
+    #handle, #lock {
+        display: none;
+    }
+    table.horizontal th, table.horizontal td {
+        display: block;
+        text-align: left;
+    }
+    table.horizontal input[type="text"],
+    table.horizontal input[type="number"] {
+        width: 100%;
+    }
+    ul {
+        padding-left: 1em;
+    }
+
+}
+
+
+</style><meta name="description" content="Convert numbers between decimal, hexadecimal, octal and binary. Also handles fractional numbers.">
+<meta name="keywords" content="hex, hexadecimal, octal, binary, digit">
+<link rel=canonical href="https://coderstoolbox.net/number/">
+</head>
+
+<body>
+
+<div id="handle-wrapper"><div id="handle"></div></div>
+<div id="home"><a href="/">Coder&rsquo;s Toolbox</a></div>
+<div id="lid">
+<ul id="menubar">
+    <li><a href="/unixtimestamp/">Time conversion</a></li>
+    <li>&middot; <a href="/string/">String conversion</a></li>
+    <li>&middot; <a href="/number/">Number conversion</a></li>
+    <li>&middot; <a href="/network/">Network</a></li>
+    <li>&middot; <a href="/network/bandwidth.php">Bandwidth</a></li>
+    <li>&middot; <a href="/xml/xpath.php">XPath (beta)</a></li>
+</ul>
+</div>
+<div id="lock"></div>
+
+<div id="main">
+<h1>Number conversion</h1>
+
+<noscript>
+    <div style="border: 2px solid red; padding: .2em; margin: 1em">
+        <h3>JavaScript disabled!</h3>
+        <p>This page does not work without JavaScript.</p>
+    </div>
+</noscript>
+
+<form id="conversion">
+
+<table class="horizontal">
+<tr>
+<th scope="row"><label for="base10">Decimal (10)</label></th>
+<td><input type="text" name="base10" id="base10" accesskey="D" size="18" oninput="numberOnInput(this)" maxlength="15"></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="base16">Hex (16)</label></th>
+<td><input type="text" name="base16" id="base16" accesskey="H" size="18" oninput="numberOnInput(this)" maxlength="12"></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="base8">Octal (8)</label></th>
+<td><input type="text" name="base8" id="base8" accesskey="O" size="18" oninput="numberOnInput(this)" maxlength="16"></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="base2">Binary (2)</label></th>
+<td><input type="text" name="base2" id="base2" accesskey="B" size="32" oninput="numberOnInput(this)" maxlength="48"></td>
+</tr>
+
+</table>
+
+</form>
+
+<script type="text/javascript" src="number.js"></script>
+<div id="banner">
+<!-- CodersToolbox - responsive -->
+<!--
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9805923609013313"
+     data-ad-slot="2371592152"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+adsbygoogle.requestNonPersonalizedAds = 1
+</script>
+-->
+</div>
+
+<!-- main -->
+</div>
+
+<div id="footer">
+<!--
+<div><g:plusone annotation="none"></g:plusone></div>
+-->
+<p>Comments? Suggestions? Bugs? <a href="https://aggemam.dk/contact">Drop me a line</a></p>
+</div>
+
+<script type="text/javascript" src="https://coderstoolbox.net/js/accesskeys.js"></script>
+<script type="text/javascript" src="/js/lib.js"></script>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    highlightAccessKeys();
+    hookUpOnInput();
+    var textarea = $('textarea.resizable-s');
+    if (textarea.resizable) textarea.resizable({handles : 's'});
+  });
+
+</script>
+
+</body>
+</html>

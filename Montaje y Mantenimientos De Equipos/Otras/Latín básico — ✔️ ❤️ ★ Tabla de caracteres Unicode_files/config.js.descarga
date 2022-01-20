@@ -1,0 +1,9 @@
+var UnicodeConfig = {
+    'SYMBOLS_COUNT' : 131072,
+    'LINE_SIZE' : 16,
+    'BLOCK_LINES' : 32,
+    'STATIC_BLOCKS' : 1,
+    'BLOCK_SYMBOLS' : 512,
+    'BLOCKS_COUNT' : 256,
+    'LANG' : "es"
+};

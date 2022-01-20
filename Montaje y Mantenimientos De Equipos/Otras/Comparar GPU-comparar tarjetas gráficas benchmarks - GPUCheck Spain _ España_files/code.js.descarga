@@ -1,0 +1,848 @@
+(function (n) {
+	n.avPlayer = function (a) {
+		function B() {
+			var c = document.getElementById(a.position).parentNode || document.getElementById(a.position).parentNode.tagName != "BODY" ? document.getElementById(a.position).parentNode.clientWidth : document.body.clientWidth || screen.width;
+			4E3 < Math.floor(c) && (c = 4E3);
+            if (a.minWidth && c < a.minWidth) c = a.minWidth;
+			if (a.autoSize) { c = Math.floor(c / 16)*16; }
+			var b = Math.floor(c / 1.777);
+			0 == a.height && 100 == a.width && (a.height = b, a.width = c, c = (navigator && navigator.userAgent && -1 < navigator.userAgent.toLowerCase().indexOf("firefox") ? 0 : document.documentElement.clientHeight) || document.body.clientHeight || screen.height, a.height > c && !a.autoHeight && (a.height = c, a.width = Math.floor(1.77 * c)), a.minHeight && (a.height = Math.max(a.height, a.minHeight)), a.minWidth && (a.width = Math.max(a.width, a.minWidth)));
+			a.width = Math.floor(a.width);
+			a.height = Math.floor(a.height);
+			a.initwidth = a.width;
+			a.initheight = a.height;
+			if (a.floating.maxwidth > document.body.clientWidth) { a.floating.maxwidth = document.body.clientWidth; }
+		}
+
+		function F(a) {
+            e.subscribe(function (c, k, p) {
+				var d;
+				for (d = 0; d < arguments.length; d++);
+				for (d = 0; d < q[a].length; d++) q[a][d].charAt(0).toUpperCase(), q[a][d].slice(1);
+				if ("AdEvent" == a && "function" == typeof b.onEvent) b.onEvent(c, k, p);
+				if ("AdLoaded" == a && (b.AdLoaded = !0, "function" == typeof b.onLoad)) b.onLoad();
+				if ("AdImpression" == a && (b.playing = !0, "function" == typeof b.onPlay)) b.onPlay(c);
+				if ("AdVideoStart" == a && "function" == typeof b.onStarted) b.onStarted();
+				if ("AdVideoFirstQuartile" == a && "function" == typeof b.onPlay25) b.onPlay25();
+				if ("AdVideoMidpoint" == a && "function" == typeof b.onPlay50) b.onPlay50();
+				if ("AdVideoThirdQuartile" == a && "function" == typeof b.onPlay75) b.onPlay75();
+				if ("AdVideoComplete" == a && (b.playing = !1, "function" == typeof b.onPlay100)) b.onPlay100();
+				if ("AdClickThru" == a && "function" == typeof b.onClick) b.onClick();
+				if ("AdPaused" == a && "function" == typeof b.onPause) b.onPause();
+				if ("AdPlaying" == a && "function" == typeof b.onResume) b.onResume();
+				if ("AdError" == a && (b.playing = !1, "function" == typeof b.onError)) b.onError(c);
+				if ("AdStopped" == a && (b.playing = !1, "function" == typeof b.onStopped)) b.onStopped();
+				
+				if ("AdClosed" == a && (b.playing = !1, "function" == typeof b.onClose)) b.onClose(c);
+				if ("AdVolumeChange" == a) {d = b.muted; "undefined" !== typeof e.adVolume && (b.muted = !(0 < e.adVolume));
+					if (d == b.muted) return;
+					"function" != typeof b.onUnmute || b.muted ? "function" == typeof b.onMute && b.muted && (b.onMute(), b.muted = !0) : (b.onUnmute(), b.muted = !1)
+				}
+				if ("ContentImpression" == a && (b.contentPlaying = !0, "function" == typeof b.onContentPlay)) b.onContentPlay(c);
+				if ("ContentComplete" == a && (b.contentPlaying = !1, "function" == typeof b.onContentPlay100)) { b.onContentPlay100(); }
+				if ("AllAdComplete" == a && "function" == typeof b.onAllAdComplete) { b.onAllAdComplete(); }
+				if ("ContentPaused" == a && "function" == typeof b.onContentPaused) b.onContentPaused();
+				if ("ContentPlaying" == a && "function" == typeof b.onContentPlaying) b.onContentPlaying();
+				if ("ContentClick" == a && "function" == typeof b.onContentClick) b.onContentClick();
+				if ("Inventory" == a && "function" == typeof b.onInventory) b.onInventory();
+				if ("InventoryRequest" == a && "function" == typeof b.onInventoryRequest) b.onInventoryRequest(c);
+				w.dispatch(a, c, k, p)
+			}, a)
+		}
+		var w = new function () {
+				var a = {};
+				this.subscribe = function (c, b, e) {
+					a[b] || (a[b] = []);
+					a[b].push({
+						callback: c,
+						context: e
+					})
+				};
+				this.unsubscribe = function (c, b) {
+					if ("*" == b) a = {};
+					else if (a[b])
+						if ("*" == c) a[b] = [];
+						else
+							for (var d = 0; d < a[b].length; d++)
+								if (a[b][d].callback === c) {
+									a[b].splice(d, 1);
+									break
+								}
+				};
+				this.dispatch =
+					function (c, b, e, f) {
+						if (a[c])
+							for (var d = 0; d < a[c].length; d++)
+								if (a[c][d] && "function" === typeof a[c][d].callback) try {
+									a[c][d].callback.call(a[c][d].context, b, e, f)
+								} catch (t) {}
+					}
+			},
+			e, u;
+		var b = this;
+		b.AdLoaded = !1;
+		b.Showed = !1;
+		b.playState = "";
+		b.stateTime = 0;
+		b.lastEvent = "";
+		b.currentEvent = "";
+		b.playing = !1;
+		b.contentPlaying = !1;
+		b.muted = !0;
+		var l = null,
+			v = null,
+			C = null,
+			x = "logs.viadata.store";        
+        a.inpageHeader ? a.headerWidth = 25 : a.headerWidth = 0;
+		a.publisherId && (a.publisherId = a.publisherId.trim());        
+        var language = window.navigator ? (window.navigator.language ||
+                  window.navigator.systemLanguage ||
+                  window.navigator.userLanguage) : "ru";
+        a.Lang = language.substr(0, 2).toLowerCase();
+		a.channelId && (a.channelId = a.channelId.trim());
+		a.trackDomain && (x = a.trackDomain);
+		if (a.adServerDomain && a.wl) {
+			var y = a.adServerDomain.indexOf("."); - 1 < y && (x = a.adServerDomain.substring(0,
+				y) + "t" + a.adServerDomain.substring(y, 100))
+		}
+		var q = {
+			AdLoaded: [],
+			AdStarted: [],
+			AdStopped: [],
+			AdSkipped: [],
+			AdClosed: [],
+			AdSkippableStateChange: ["adSkippableState"],
+			AdSizeChange: ["adWidth", "adHeight"],
+			AdLinearChange: ["adLinear"],
+			AdDurationChange: ["adDuration", "adRemainingTime"],
+			AdExpandedChange: ["adExpanded"],
+			AdRemainingTimeChange: ["adRemainingTime"],
+			AdVolumeChange: ["adVolume"],
+			AdImpression: [],
+			AdVideoStart: [],
+			AdVideoFirstQuartile: [],
+			AdVideoMidpoint: [],
+			AdVideoThirdQuartile: [],
+			AdVideoComplete: [],
+			AdClickThru: [],
+			AdInteraction: [],
+			AdUserAcceptInvitation: [],
+			AdUserMinimize: [],
+			AdUserClose: [],
+			AdPaused: [],
+			AdPlaying: [],
+			AdLog: [],
+			AdError: [],
+			ContentImpression: [],
+			ContentComplete: [],
+			AllAdComplete: [],
+			ContentPaused: [],
+			ContentPlaying: [],
+			ContentClick: [],
+			Inventory: [],
+			InventoryRequest: [],
+			AdEvent: []
+		};
+		document.getElementById("videoSlot");
+		if (g && g.parentNode) {
+			g.parentNode.removeChild(g);
+			var g = null
+		}
+		g = document.createElement("iframe");
+		g.setAttribute("id",
+			"AVLoader" + a.position);
+		g.style.display = "none";
+		g.src = "about:blank";        
+		var G = function () {
+			var c;
+			if (a.baseJsUrl || "" == a.baseJsUrl) var b = a.baseJsUrl;
+			else b = "https://cdn.viadata.store/js/player.js?v=" + a.playerVersion + "&type=s&pid=" + a.publisherId;
+			try {
+				u = g.contentWindow.document.createElement("script");
+				u.src = b;
+				u.type = "text/javascript";
+				var k = function () {
+					if ("function" === typeof g.contentWindow.getVPAIDAd) {
+						e = g.contentWindow.getVPAIDAd();
+						for (c in q) q.hasOwnProperty(c) && F(c);
+						B();
+						"undefined" ===
+						typeof a.hideControls && (a.hidecontrols = !1);
+						a.slot = document.getElementById(a.position);
+						a.videoSlot = document.getElementById("videoSlot");
+						a.videoSlotCanAutoPlay = !0;
+						a.getviewability = C;
+						e.initAd(a.width, a.height, "normal", "", "", a)
+					}
+				};
+				u.onload = function () {
+					k()
+				};
+				g.contentWindow.document.body.appendChild(u)
+			} catch (p) {}
+		};
+		b.play = function () {
+			if (!b.playCalled) {
+				b.playCalled = !0;
+				document.body && "function" === typeof document.body.appendChild ? document.body.appendChild(g) : document.getElementById(a.position).appendChild(g);
+				var c = g.contentWindow.document.open();
+				g.contentWindow.avCallback = G;
+				c.write('<html><body onload="window.avCallback();"></body></html>');
+				g.contentWindow.document.close()
+			}
+		};
+		b.startAd = function () {
+			b.AdLoaded && e.startAd();
+		};
+		b.getWidth = function () {
+			return e ? e.getAdWidth() : -2
+		};
+		b.getHeight = function () {
+			return e ? e.getAdHeight() : -2
+		};
+		b.setWaterfallState = function (a, b) {
+			e && "function" === typeof e.setWaterfallState && e.setWaterfallState(a, b)
+		};
+		var D = !1;
+		b.unmute = function (a) {
+			function b(c) {
+				c && (D = !0, e.setAdVolume(a ? a : 1))
+			}
+			if (e)
+				if (0 ==
+					a || D || -1 == navigator.userAgent.toLowerCase().indexOf("chrome") || -1 == navigator.vendor.toLowerCase().indexOf("google")) e.setAdVolume(a ? a : 1);
+				else {
+					var c = document.createElement("video");
+					c.src = "data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAthtZGF0AAACrQYF//+p3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE0MiByMjQ1MyBlYTBjYTUxIC0gSC4yNjQvTVBFRy00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAxNCAtIGh0dHA6Ly93d3cudmlkZW9sYW4ub3JnL3gyNjQuaHRtbCAtIG9wdGlvbnM6IGNhYmFjPTEgcmVmPTMgZGVibG9jaz0xOjA6MCBhbmFseXNlPTB4MzoweDExMyBtZT1oZXggc3VibWU9NyBwc3k9MSBwc3lfcmQ9MS4wMDowLjAwIG1peGVkX3JlZj0xIG1lX3JhbmdlPTE2IGNocm9tYV9tZT0xIHRyZWxsaXM9MSA4eDhkY3Q9MSBjcW09MCBkZWFkem9uZT0yMSwxMSBmYXN0X3Bza2lwPTEgY2hyb21hX3FwX29mZnNldD00IHRocmVhZHM9NiBsb29rYWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBkZWNpbWF0ZT0xIGludGVybGFjZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJhbWlkPTIgYl9hZGFwdD0xIGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdlaWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49MjUgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAAPZYiEAC///vYp+BTXMDH/AAAACEGaIWxCv/7AAAADCW1vb3YAAABsbXZoZAAAAAAAAAAAAAAAAAAAA+gAAABQAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAI0dHJhawAAAFx0a2hkAAAAAwAAAAAAAAAAAAAAAQAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAACAAAAAgAAAAAAJGVkdHMAAAAcZWxzdAAAAAAAAAABAAAAUAAAAAAAAQAAAAABrG1kaWEAAAAgbWRoZAAAAAAAAAAAAAAAAAAAMgAAAAQAVcQAAAAAAC1oZGxyAAAAAAAAAAB2aWRlAAAAAAAAAAAAAAAAVmlkZW9IYW5kbGVyAAAAAVdtaW5mAAAAFHZtaGQAAAABAAAAAAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAEXc3RibAAAAJdzdHNkAAAAAAAAAAEAAACHYXZjMQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAACAAIASAAAAEgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABj//wAAADFhdmNDAfQACv/hABhn9AAKkZsr8fH4CIAAAAMAgAAAGQeJEssBAAZo6+PESEQAAAAYc3R0cwAAAAAAAAABAAAAAgAAAgAAAAAUc3RzcwAAAAAAAAABAAAAAQAAABxzdHNjAAAAAAAAAAEAAAABAAAAAgAAAAEAAAAcc3RzegAAAAAAAAAAAAAAAgAAAsQAAAAMAAAAFHN0Y28AAAAAAAAAAQAAADAAAABhdWR0YQAAAFltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAACxpbHN0AAAAJKl0b28AAAAcZGF0YQAAAAEAAAAATGF2ZjU2LjAuMTAw";
+					c.setAttribute("playsinline", !0);
+					c.setAttribute("webkit-playsinline", !0);
+					c.style.display = "none";
+					document.body.appendChild(c);
+					c.muted = !1;
+					(c = c.play()) ? (c.then(function () {
+						b(!0)
+					}).catch(function (a) {
+						b(!1)
+					}), setTimeout(function () {
+						b(!1)
+					}, 1E3)) : b(!1)
+				}
+		};
+		b.mute = function () {
+			try {
+				e && e.setAdVolume(0)
+			} catch (c) {}
+		};
+		b.pause = function () {			
+			var now = parseInt(new Date().getTime());
+			if (b.playState != "pause" || b.currentEvent != b.lastEvent || now - b.stateTime > 3000) {
+				e && e.pauseAd();
+				b.playState = "pause";
+				b.lastEvent = b.currentEvent;
+				b.stateTime = now;
+			}
+		};
+		b.resume = function () {
+			var now = parseInt(new Date().getTime());
+			if (b.playState != "resume" || b.currentEvent != b.lastEvent || now - b.stateTime > 3000) {
+				e && e.resumeAd();
+				b.playState = "resume";
+				b.lastEvent = b.currentEvent;
+				b.stateTime = now;
+			}			
+		};
+		b.destroy = function () {
+			e && "function" === typeof e.stopAd && e.stopAd();			
+			setTimeout(function () {
+					try {
+						g && (document.body.removeChild(g), e = g = null)
+					} catch (d) {}
+				},3E3 + 1);
+			if (l) l.stop();
+		};
+		b.close = function (a) {
+			var sh = this.Showed;
+			e && "function" === typeof e.stopAd && e.stopAd();			
+			(new Image).src = "https://logs.viadata.store/event/player?sid=" + a.publisherId + "&event=rtb&event2=plFinish&cnt=" + (!sh?0:1) + "&cb=" + Date.now();			
+			setTimeout(function () {
+					try {
+						g && (document.body.removeChild(g), e = g = null)
+					} catch (d) {}
+				},3E3 + 1);
+			if (l) l.stop();
+			var mainContainer = document.getElementById("con_" + a.position).parentNode;			
+			mainContainer.removeChild(document.getElementById("con_" + a.position));           
+			setTimeout(function () {
+				mainContainer.removeAttribute("style");
+                if (a.passback.Url && (a.passback.Mode == "ALWAYS" || (a.passback.Mode == "NOADS" && !sh))) {
+                    if (a.passback.Type == "SCRIPT") {
+                    	var pb = document.createElement("script");
+                    	pb.type = "text/javascript";
+                    	pb.src = a.passback.Url;
+                    	pb.async = "true";
+                    	mainContainer.appendChild(pb);
+                    } else if (a.passback.Type == "IFRAME") {
+                    	var pb = document.createElement("iframe");
+                    	pb.width = a.width;
+                    	pb.height = a.height;
+                    	pb.style.border = '0px solid#000';
+                    	pb.src = a.passback.Url;
+                    	mainContainer.appendChild(pb);
+                    } else if (a.passback.Type == "HTMLCODE") {                       
+                    	mainContainer.innerHTML = window.atob(a.passback.Code);
+                    	var scrarr = JSON.parse(window.atob(a.passback.Url));
+                    	var pb = [];
+                    	for (var i = 0; i < scrarr.length; i++) {
+                    		pb[i] = document.createElement("script");
+                    		pb[i].type = "text/javascript";
+                    		pb[i].src = scrarr[i];
+                    		mainContainer.appendChild(pb[i]);
+                    	}
+                    }
+                }
+            },   2E3);			
+		};
+		b.getEvents = function () {
+			var a = [],
+				b;
+			for (b in q) a.push(b);
+			return a
+		};
+		b.updateGui = function (a) {
+			try {
+				if ("object" == typeof a)
+					for (var b in a) {
+						var c = b.toLowerCase();
+						g.contentWindow.VIA_PlayerGui.config[c] = a[b];
+						g.contentWindow.VIA_PlayerGui.config[b] = a[b];
+						"showTimeline" == b && "function" === typeof g.contentWindow.VIA_PlayerGui.showTimeline && g.contentWindow.VIA_PlayerGui.showTimeline(a[b])
+					}
+			} catch (p) {}
+		};
+		b.resize = function (b, d, k) {
+			if (b != a.width && d != a.height) {
+				k || (k = "normal");
+			e && ("normal" === k && (a.width = b, a.height = d), e.resizeAd(Math.floor(b),
+				Math.floor(d), k))
+			}			
+		};
+		b.getAdDuration = function () {
+			if (e) return e.getAdDuration()
+		};
+		b.getAdRemainingTime = function () {
+			if (e) return e.getAdRemainingTime()
+		};
+		b.getAdVolume = function () {
+			if (e) return e.getAdVolume()
+		};
+		b.setAdVolume = function (a) {
+			if (e) return e.setAdVolume(a)
+		};
+		b.getAdCompanions = function () {
+			if (e) return e.getAdCompanions()
+		};
+		b.seek = function (a) {
+			if (e) return e.seekAd(a)
+		};
+		b.getContentPaused = function () {
+			if (e) return e.getContentPaused()
+		};
+		b.getContentCurrentTime = function () {
+			if (e) return e.getContentCurrentTime()
+		};
+		this.pauseContent =
+			function () {
+				if (e) return e.pauseContent()
+			};
+		this.resumeContent = function () {
+			if (e) return e.resumeContent()
+		};
+		this.setContentVolume = function (a) {
+			if (e) return e.setContentVolume(a)
+		};
+		this.on = function (a, b, e) {
+			w.subscribe(b, a, e)
+		};
+		this.off = function (a, b) {
+			w.unsubscribe(b, a)
+		};
+		var E = function () {
+			function b() {
+				var b = t.getVieabilityInfo(f.el, f.wnd, f.iframe ? f.baseEl : null),
+					c = b.vertical.value * b.horizontal.value,
+					d = b.vertical.state;
+				a.vitab && f.wnd && f.wnd.document && "hidden" === f.wnd.document.visibilityState && (c = 0, d = "OUT_TAB");
+				return {
+					inView: c >
+						g,
+					ratio: c,
+					state: d,
+					distance: b.vertical.distance
+				}
+			}
+
+			function d() {
+				var a = b();
+				e && e(a.inView, a.ratio, a.state, a.distance)
+			}
+			var e = null,
+				g = .5,
+				f = null,
+				h = !1,
+				t = this;
+			this.checkViewability = function () {
+				d()
+			};
+			this.start = function (a, b, c, k) {
+				if (h) return !1;
+				a: {
+					var r = null;a = "object" == typeof a ? a : document.getElementById(a);
+					try {
+						if (r = n.frameElement)
+							for (var z, m = n; m !== n.top;) {
+								z = r.ownerDocument;
+								m = z.defaultView || z.parentWindow;
+								if (m === n.top) {
+									var p = m;
+									var A = r;
+									break
+								}
+								r = m.frameElement
+							}
+					} catch (J) {
+						h = !0;
+						f = null;
+						break a
+					}
+					if (null == r) {
+						A = a;
+						if (!A) {
+							h = !0;
+							f = null;
+							break a
+						}
+						p = n
+					}
+					f = {
+						el: A,
+						wnd: p,
+						baseEl: a,
+						iframe: null != r && k
+					}
+				}
+				if (!f) return !1;
+				c && (g = c);
+				b && (f.wnd.addEventListener("resize", d, !0), f.wnd.addEventListener("scroll", d, !0), e = b, setTimeout(d, 10));
+				return !0
+			};
+			this.stop = function () {
+				e && (f.wnd.removeEventListener("resize", d, !0), f.wnd.removeEventListener("scroll", d, !0), e = null)
+			};
+			this.get = function (a, c) {
+				return !h && f ? b() : {
+					inView: !1,
+					ratio: 0,
+					state: "UNKNOWN"
+				}
+			};
+			this.getHorizontalViewability = function (a, b) {
+				b = b.innerWidth;
+				var c = a.getBoundingClientRect().left;
+				a = a.getBoundingClientRect().right;
+				var d = a - c;
+				return c > b ? {
+					value: 0,
+					state: "OUT_RIGHT"
+				} : 0 >= a ? {
+					value: 0,
+					state: "OUT_LEFT"
+				} : 0 <= c && a <= b ? {
+					value: 1,
+					state: "IN_HVIEW"
+				} : 0 > c && a > b ? {
+					value: b / d,
+					state: "LR_TRUNC"
+				} : 0 > c && a <= b ? {
+					value: a / d,
+					state: "L_TRUNC"
+				} : 0 <= c && a > b ? {
+					value: (b - c) / d,
+					state: "R_TRUNC"
+				} : {
+					value: 0,
+					state: "OUT"
+				}
+			};
+			this.getVerticalViewability = function (a, b, c) {
+				b = b.innerHeight;
+				var d = a.getBoundingClientRect().top;
+				a = a.getBoundingClientRect().bottom;
+				var e = a - d;
+				c && (d += c.getBoundingClientRect().top, a = d + (c.getBoundingClientRect().bottom - c.getBoundingClientRect().top),
+					e = a - d);
+				return d > b ? {
+					value: 0,
+					state: "OUT_BOTTOM",
+					out: -1
+				} : 0 >= a ? {
+					value: 0,
+					state: "OUT_TOP",
+					out: -1
+				} : 0 <= d && a <= b ? {
+					value: 1,
+					state: "IN_VVIEW",
+					out: 0,
+					distance: b - d
+				} : 0 > d && a > b ? {
+					value: b / e,
+					state: "BT_TRUNC",
+					out: -d + a - b
+				} : 0 > d && a <= b ? {
+					value: a / e,
+					state: "T_TRUNC",
+					out: -d
+				} : 0 <= d && a > b ? {
+					value: (b - d) / e,
+					state: "B_TRUNC",
+					out: a - b
+				} : {
+					value: 0,
+					state: "OUT",
+					out: -1
+				}
+			};
+			this.getVieabilityInfo = function (a, b, c) {
+				return {
+					vertical: t.getVerticalViewability(a, b, c),
+					horizontal: t.getHorizontalViewability(a, b, c)
+				}
+			}
+		};
+		this.startViewability = function (a, b, e, g)  {
+			l || (l = new E);
+			return l.start(a, b, e, g)
+		};
+		this.stopViewability = function () {
+			l && l.stop()
+		};
+		this.getViewability = function () {
+			if (l) return l.get()
+		};
+		C = function (a, b, e) {
+			if (a) return v || (v = new E, v.start(a, b, e)), v.get();			
+			v.stop()
+		};
+		(function () {
+			var a = void 0,
+				d = void 0;
+			"undefined" !== typeof document.hidden ? (a = "hidden", d = "visibilitychange") : "undefined" !== typeof document.webkitHidden ? (a = "webkitHidden", d = "webkitvisibilitychange") : "undefined" !== typeof document.mozHidden ? (a = "mozHidden", d = "mozvisibilitychange") : "undefined" !== typeof document.msHidden &&
+				(a = "msHidden", d = "msvisibilitychange");
+			a && document.addEventListener(d, function (c) {
+				document[a] && b.mute()
+			}, !1)
+		})();
+		var H = {
+			addClass: function (b, d) {
+				(a.sticky && 0 < a.sticky.size || a.floating && 0 < a.floating.size) && b.style.visibility && (d += ";visibility:" + b.style.visibility + ";");
+				b.style.cssText = d
+			},
+			setfloatingCSS: function () {				
+				if (!this.floatingCSS) {
+					var b = .5,
+						d = 0,
+						e = 0,
+						g = 0,
+						f = 0;
+					a.floating.size && (b = a.floating.size);
+					a.floating.right && (d = a.floating.right);
+					a.floating.bottom && (e = a.floating.bottom);
+					a.floating.top && (g = a.floating.top);
+					a.floating.left && (f = a.floating.left);
+					"string" !== typeof a.floating.position && (a.floating.position = "");
+					switch (a.floating.position.toLowerCase()) {
+						case "bottom-right":
+							this.floatingCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; right:" + d + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom right; transform:scale(" + b + "); transform-origin:bottom right";
+							break;
+						case "bottom-left":
+							this.floatingCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; left:" + f + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom left; transform:scale(" + b + "); transform-origin:bottom left";
+							break;
+						case "bottom-center":
+							this.floatingCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom center; transform:scale(" + b + "); transform-origin:bottom center";
+							break;
+						case "top-center":
+							this.floatingCSS = "z-index:10000001;position:fixed; top:" + e + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top center; transform:scale(" + b + "); transform-origin:top center";
+							break;
+						case "top-left":
+							this.floatingCSS = "z-index:10000001;position:fixed; top:" + g + "px; left:" + f + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top left; transform:scale(" + b + "); transform-origin:top left";
+							break;
+						case "top-right":
+							this.floatingCSS = "z-index:10000001;position:fixed; top:" + g + "px; right:" + d + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top right; transform:scale(" + b + "); transform-origin:top right"
+					}
+				}
+			},
+			setStickyCSS: function () {
+				if (!this.stickyCSS) {
+					var b = .5,
+						d = 0,
+						e = 0,
+						g = 0,
+						f = 0;
+					a.sticky.size && (b = a.sticky.size);
+					a.sticky.right && (d = a.sticky.right);
+					a.sticky.bottom && (e = a.sticky.bottom);
+					a.sticky.top && (g = a.sticky.top);
+					a.sticky.left && (f = a.sticky.left);
+					"string" !== typeof a.sticky.position && (a.sticky.position =
+						"");
+					switch (a.sticky.position.toLowerCase()) {
+						case "bottom-right":
+							this.stickyCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; right:" + d + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom right; transform:scale(" + b + "); transform-origin:bottom right";
+							break;
+						case "bottom-left":
+							this.stickyCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; left:" + f + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom left; transform:scale(" + b + "); transform-origin:bottom left";
+							break;
+						case "bottom-center":
+							this.stickyCSS = "z-index:10000001;position:fixed; bottom:" + e + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:bottom center; transform:scale(" + b + "); transform-origin:bottom center";
+							break;
+						case "top-center":
+							this.stickyCSS = "z-index:10000001;position:fixed; top:" + g + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top center; transform:scale(" + b + "); transform-origin:top center";
+							break;
+						case "top-left":
+							this.stickyCSS = "z-index:10000001;position:fixed; top:" + g + "px; left:" + f + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top left; transform:scale(" + b + "); transform-origin:top left";
+							break;
+						case "top-right":
+							this.stickyCSS = "z-index:10000001;position:fixed; top:" + g + "px; right:" + d + "px; -webkit-transform:scale(" + b + "); -webkit-transform-origin:top right; transform:scale(" + b + "); transform-origin:top right"
+						case "interstitial":
+							this.stickyCSS = "z-index:10000001;position:fixed; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"
+					}
+				}
+				if (!this.interCSS) {
+					this.interCSS = "position:fixed; top: 0; left: 0; background: rgba(0,0,0,0.9); z-index: 10000000; width: 100%; height: 100%; display: block;";
+				}
+			},
+			getPlaceholderWidth: function (b) {
+				b = b.parentNode || "BODY" != b.parentNode.tagName ?
+					b.parentNode.clientWidth : document.body.clientWidth || screen.width;
+				4E3 < b && (b = 4E3);
+				100 != a.width && 0 != a.height ? b = a.width : (a.height = Math.floor(b / 1.777), a.width = b);
+				return b
+			},
+			hidePlayer: function (cont, spot, player, e) {				
+				spot && (spot.style.width = this.getPlaceholderWidth(spot) + "px", spot.style.height = "0px", e ? setTimeout(function () {
+					b.playing || (spot.style.opacity = 0);					
+				}, 1E3) : spot.style.opacity = 0, a.sticky && 0 < a.sticky.size || a.floating && 0 < a.floating.size) && (player.style.visibility = "hidden") && a.sticky.position.toLowerCase() == "interstitial" && (cont.style.visibility = "hidden");
+				//(cont.style.visibility = "hidden")
+			},
+			showPlayer: function (cont, spot, player) {
+				b.Showed = !0;
+                if (a.capping && a.capping > 0) { localStorage.setItem('viads_' + a.publisherId + '_lr', (new Date()).getTime()); }
+				var e = !1,
+					g = !1;
+				a.floating && 0 < a.floating.size && (e = !0);
+				a.sticky && 0 < a.sticky.size && (g = !0, b.updateGui({swipebar: !0}));
+				if (g || e) {
+					player.style.visibility = "";
+					if (a.sticky.position.toLowerCase() == "interstitial") cont.style.visibility = "";
+				}
+				g || (spot && (!e || e && "OUT_TOP" !== b.viewState && "T_TRUNC" !== b.viewState) && (spot.style.width = this.getPlaceholderWidth(spot) + "px", spot.style.height = (a.height + a.headerWidth) + "px"), b.resize(a.width, a.height), player.style.zIndex = a.maxzindex || "9999999");
+				spot && (spot.style.opacity = "");
+			},
+			startAd: function () {
+				this.playerInView && this.playerLoadedFirstTime && !a.clickToPlay && b.startAd()
+			},
+			startViewability: function (c) {
+				var d = this,
+					e = !1,
+					g = !1;
+				a.floting && !a.floating && (a.floating = a.floting);
+				if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
+					/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,
+						4))) g = !0;
+				a.preloader || (a.preloader = {});
+				B();
+                var lCont = document.querySelector('#viInpageLogo');
+                if (lCont && a.inpageHeader) {
+                var logo = '<svg width="60px" height="12px" viewBox="0 0 217 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Viads Video Advertising</title><defs><linearGradient x1="79.2797502%" y1="55.8472425%" x2="2.85239561%" y2="16.728413%" id="linearGradient-1"><stop stop-color="#1018FF" offset="0%"></stop><stop stop-color="#57E1FF" offset="100%"></stop></linearGradient><linearGradient x1="-0.0194717712%" y1="50.0247019%" x2="99.9992281%" y2="50.0247019%" id="linearGradient-2"><stop stop-color="#1018FF" offset="0%"></stop><stop stop-color="#57E1FF" offset="100%"></stop></linearGradient></defs><g id="viads_logo-dark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="logo" fill-rule="nonzero"><g id="vi_logo_text" transform="translate(72.750000, 8.250000)" fill="#18192B"><polygon id="Path" points="29.016 11.439 15.1218 42.8544 14.0058 42.8544 1.0658141e-14 11.439 4.8546 11.439 14.508 33.4242 24.1614 11.439"></polygon><path d="M39.744,11.439 L39.744,41.85 L35.1126,41.85 L35.1126,11.439 L39.744,11.439 Z M37.4004,1.0658141e-14 C38.404805,1.0658141e-14 39.2510966,0.344096559 39.9393,1.0323 C40.6275034,1.72050344 40.9716,2.55749507 40.9716,3.5433 C40.9716,4.52910493 40.6275034,5.36609656 39.9393,6.0543 C39.2510966,6.74250344 38.4141049,7.0866 37.4283,7.0866 C36.4424951,7.0866 35.6055034,6.73320353 34.9173,6.0264 C34.2290966,5.31959647 33.885,4.49190474 33.885,3.5433 C33.885,2.59469526 34.2290966,1.76700353 34.9173,1.0602 C35.6055034,0.353396466 36.4331952,1.0658141e-14 37.4004,1.0658141e-14 Z" id="Combined-Shape"></path><path d="M62.3223,10.6578 C66.7677222,10.6578 70.4969849,12.461982 73.5102,16.0704 L73.5102,11.439 L78.03,11.439 L78.03,41.85 L73.5102,41.85 L73.5102,37.386 C70.1993834,41.0316182 66.3864216,42.8544 62.0712,42.8544 C57.7559784,42.8544 54.0639153,41.2641159 50.9949,38.0835 C47.9258847,34.9028841 46.3914,31.108522 46.3914,26.7003 C46.3914,22.292078 47.9351846,18.5163157 51.0228,15.3729 C54.1104154,12.2294843 57.8768778,10.6578 62.3223,10.6578 Z M62.3781,15.1218 C59.1974841,15.1218 56.509811,16.2842884 54.315,18.6093 C52.120189,20.9343116 51.0228,23.6777842 51.0228,26.8398 C51.0228,30.0018158 52.1387888,32.7452884 54.3708,35.0703 C56.6028112,37.3953116 59.2811844,38.5578 62.406,38.5578 C65.4936154,38.5578 68.1533888,37.4418112 70.3854,35.2098 C72.6174112,32.9777888 73.7334,30.1971166 73.7334,26.8677 C73.7334,23.5382834 72.636011,20.7483113 70.4412,18.4977 C68.246389,16.2470887 65.5587159,15.1218 62.3781,15.1218 Z" id="Combined-Shape"></path><path d="M116.1972,9.9475983e-14 L116.1972,41.85 L111.6774,41.85 L111.6774,37.386 C108.366583,41.0316182 104.544322,42.8544 100.2105,42.8544 C95.8766783,42.8544 92.1846153,41.2734158 89.1342,38.1114 C86.0837847,34.9493842 84.5586,31.1550221 84.5586,26.7282 C84.5586,22.3013779 86.1023846,18.5163157 89.19,15.3729 C92.2776154,12.2294843 96.0440778,10.6578 100.4895,10.6578 C104.934922,10.6578 108.664185,12.461982 111.6774,16.0704 L111.6774,9.9475983e-14 L116.1972,9.9475983e-14 Z M100.6011,15.1218 C97.3460837,15.1218 94.6305109,16.2842884 92.4543,18.6093 C90.2780891,20.9343116 89.19,23.6684843 89.19,26.8119 C89.19,29.9553157 90.3059888,32.6987883 92.538,35.0424 C94.7700112,37.3860117 97.4483844,38.5578 100.5732,38.5578 C103.512015,38.5578 106.134588,37.460411 108.441,35.2656 C110.747412,33.070789 111.9006,30.2901168 111.9006,26.9235 C111.9006,23.5568832 110.831111,20.7483113 108.6921,18.4977 C106.553089,16.2470887 103.856116,15.1218 100.6011,15.1218 Z" id="Combined-Shape"></path><path d="M143.7192,15.0102 L140.301887,18.0792 C137.765754,16.0331898 135.444584,15.0102 133.338304,15.0102 C132.005761,15.0102 130.88816,15.3728964 129.985469,16.0983 C129.082778,16.8237036 128.631439,17.7164947 128.631439,18.7767 C128.631439,19.8369053 129.136508,20.766896 130.146663,21.5667 C131.103651,22.3244091 132.764693,23.249042 135.129834,24.3406239 L135.530543,24.5241 C138.109661,25.6959059 140.0977,26.9885929 141.494722,28.4022 C142.891744,29.8158071 143.590245,31.5455898 143.590245,33.5916 C143.590245,36.195613 142.547867,38.3903911 140.463081,40.176 C138.378294,41.9616089 135.809962,42.8544 132.758006,42.8544 C128.502462,42.8544 124.956229,41.2920156 122.1192,38.1672 L125.472036,34.9308 C127.793241,37.2744117 130.157397,38.4462 132.564573,38.4462 C134.198014,38.4462 135.595015,37.9812047 136.755618,37.0512 C137.916221,36.1211954 138.496513,35.0331062 138.496513,33.7869 C138.496513,32.5406938 137.969952,31.4991042 136.916812,30.6621 C135.863672,29.8250958 134.058317,28.8486056 131.500693,27.7326 C128.943068,26.6165944 127.008759,25.3797068 125.697707,24.0219 C124.386656,22.6640932 123.73114,20.8785111 123.73114,18.6651 C123.73114,16.4516889 124.666056,14.5638078 126.535916,13.0014 C128.405777,11.4389922 130.877394,10.6578 133.950842,10.6578 C137.02429,10.6578 140.280377,12.1085855 143.7192,15.0102 Z" id="Path"></path></g><g id="icon"><path d="M1.22570562,25.1410045 L19.5884963,55.9223999 C22.6582638,61.0851906 30.1373335,61.0293766 33.151287,55.8386789 L52.8536126,21.7363533 C55.2257056,17.6340278 52.2954731,12.4712371 47.52338,12.4433301 L8.70477539,12.1642603 C1.979194,12.0805394 -2.20685252,19.3921673 1.22570562,25.1410045 Z" id="Path" fill="url(#linearGradient-1)"></path><path d="M50.5931475,13.1410045 L28.351287,0.722399859 C24.6117521,-1.3706234 20.0350079,1.33635335 20.0350079,5.60612079 L20.0350079,33.5968185 C20.0350079,36.9735626 23.6908219,39.0944929 26.6210545,37.4200743 L50.6210545,23.8014696 C54.751287,21.4572836 54.751287,15.4851906 50.5931475,13.1410045 Z" id="Path" fill="url(#linearGradient-2)"></path></g></g></g></svg>';
+                    var viHeadStyle = document.createElement('style')
+                    viHeadStyle.appendChild(document.createTextNode('.vi-head{all:initial;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding-bottom:2px;-webkit-box-shadow:none;box-shadow:none;padding-top:1px}.vi-head div,.vi-head span{all:unset;display:inline-block}.vi-head span{position:relative;color:#18192b;font-family:sans-serif;text-transform:uppercase;letter-spacing:1px;font-size:10px;opacity:.5}.vi-head div{width:14px;overflow:hidden;vertical-align:middle;margin-left:auto;will-change:auto;-webkit-transition:0.25s ease-out;-o-transition:0.25s ease-out;transition:0.25s ease-out}.vi-head div:hover{width:52px}.vi-head div:hover svg #vi_logo_text{opacity:1}.vi-head svg{display:block;width:52px;height:14px;vertical-align:top;max-width:unset}.vi-head svg #vi_logo_text{opacity:0;-webkit-transition:0.7s;-o-transition:0.7s;transition:0.7s}.vi-head a{all:unset;display:block;cursor:pointer;padding:4px 0}'));
+                    document.head.appendChild(viHeadStyle);
+                    var adstr = "РЕКЛАМА";
+                    if (a.Lang != "ru") { adstr = "ADVERTISEMENT"; }
+                    var viHeadTemplate = '<span>' + adstr + '</span><div><a href="https://viads.com" target="_blank"> ' + logo + ' </a></div>';
+                    lCont.classList.add('vi-head')
+                    lCont.innerHTML = viHeadTemplate;
+                }
+				var f = document.querySelector("#" + a.position),h = "";
+				var viCont = document.querySelector("#" + "con_" +a.position);
+				
+				"bottomup" == a.openTransition && (h = "position:absolute;bottom:0;", c.parentNode.style.position = "relative");
+				c && d.addClass(c, "margin-bottom: 10px; overflow:hidden; -webkit-transition:1s ease height; transition:1s ease height;opacity:0;" + h);
+				a.floating && 0 < a.floating.size && (a.playOnView = !0, a.floatPos || (a.floatPos = f), d.setfloatingCSS());
+				a.sticky && 0 < a.sticky.size && (a.floatPos || (a.floatPos = f), a.playOnView = !1, d.setStickyCSS());
+				(a.playOnView && !a.autoPlay && !a.showPlayer || a.openAnim) && d.hidePlayer(viCont, c, f);
+				a.showPlayer && d.showPlayer(viCont, c, f);
+				b.on("AdLoaded", function () {
+					b.currentEvent = "AdLoaded";
+					d.playerLoadedFirstTime = !0;
+					d.startAd()
+				});
+				b.on("AdVideoStart", function () {
+					b.currentEvent = "Start";
+					c && (c.style.opacity = "");
+					a.sticky && a.sticky.position.toLowerCase() == "interstitial" && d.addClass(viCont, d.interCSS);
+					a.sticky && 0 < a.sticky.size && "" != a.preloader.type && d.addClass(f, d.stickyCSS);
+					d.showPlayer(viCont, c, f);
+					if (a.playOnView) try {						
+						l.checkViewability()
+					} catch (t) {}
+				});
+				b.on("AdImpression", function () {
+					b.currentEvent = "Impression";
+					c && (c.style.opacity = "");
+					a.sticky && a.sticky.position.toLowerCase() == "interstitial" && d.addClass(viCont, d.interCSS);
+					a.sticky && 0 < a.sticky.size && "" != a.preloader.type && d.addClass(f, d.stickyCSS);
+					d.showPlayer(viCont, c, f);
+					a.unMuteOnMouseEnter && !g && (f.addEventListener("mouseenter", function (a) {
+						setTimeout(function () {
+							b.unmute()
+						}, 5)
+					}), f.addEventListener("mouseleave", function (a) {
+						setTimeout(function () {
+							b.mute()
+						}, 5)
+					}));
+					a.pauseOnBlur && !g && n.addEventListener("blur", function () {
+							setTimeout(function () {
+								b.pause()
+							}, 500)
+						});
+					if (a.playOnView) try {						
+						l.checkViewability()
+					} catch (t) {}
+				});
+				b.on("AdVideoComplete", function () {
+					b.currentEvent = "AdVideoComplete";
+					a.lastFrame || a.preloader.type || d.hidePlayer(viCont, c, f, !0);
+					0 == a.autoPlayLoop && (d.startAdFirstTime = !1, e && d.startAd())
+				});
+				b.on("AdSkipped", function () {
+					b.currentEvent = "AdSkipped";
+					(!a.preloader || "content" != a.preloader.type && "Image" != a.preloader.type && "js" != a.preloader.type) && d.hidePlayer(viCont, c, f, !0)
+				});
+				b.on("AdClosed", function () {
+					b.currentEvent = "AdClosed";
+					a.closeevent || b.viewState == "OUT_TOP" && a.floating && 0 < a.floating.size && a.floating.closeButton ?
+						(d.addClass(f, ""), d.showPlayer(viCont, c, f), a.floating && 0 < a.floating.size && a.floating.closeButton && b.updateGui({
+							closefloat: !1
+						}), a.floating.size = 0, b.playing = !0, b.pause()) : d.hidePlayer(viCont, c, f)
+				});
+				b.on("AdError", function (b) {
+					b.currentEvent = "AdError";
+					b = b && b.errorlimit;
+					a.showPlayer ? a.playOnView && b && d.showPlayer(viCont, c, f) : d.hidePlayer(viCont, c, f)
+				});
+				
+				a.playOnView ? (h = .5, a.inViewRatio && (h = a.inViewRatio), b.startViewability(c, function (g, k, h, l) {
+					b.viewState = h;
+					if (g && a.playOnViewPerc && 0 < a.playOnViewPerc) {
+						var m = 100 - 100 * (a.height -
+							l) / a.height;
+						0 < m && m < a.playOnViewPerc && (g = !1)
+					}
+					if ("function" === typeof b.onViewabilityChanged) try {
+						b.onViewabilityChanged(g, k, h, l)
+					} catch (I) {}
+					if (g) {
+						if (e = !0, !a.preloader.type || d.playerInView || a.hideInitPreloader || d.showPlayer(viCont, c, f), d.playerInView = !0, b.playing || (d.startAd(), "content" == a.preloader.type && a.showPlayer && a.autoPlayContent && b.resumeContent()), b.playing || "" !== a.preloader.type && a.preloader.type) a.pauseOnUnseen && b.resume(), d.addClass(f, ""), b.resize(a.initwidth, a.initheight), a.floating && 0 < a.floating.size && a.floating.closeButton &&
+							b.updateGui({
+                                logo: !1, closefloat: !1, swipebar: !1
+							}), (!c.style.height || 1 >= c.clientHeight) && (b.playing || a.showPlayer) && d.showPlayer(viCont, c, f)
+					} else if (e = !1, (b.playing || b.contentPlaying || "" != a.preloader.type && a.preloader.type && !a.preloader.noFloatIdle)) {
+						if (a.floating && 0 < a.floating.size) {
+							switch (h) {
+								case "T_TRUNC":
+								case "OUT_TOP":
+									//b.resume();
+									d.addClass(f, d.floatingCSS);
+									b.resize(a.floating.maxwidth, a.floating.maxwidth*9/16);
+									a.floating.closeButton && b.updateGui({
+                                        logo: !0,
+										closefloat: !0,
+										swipebar: !0
+									});
+									break;
+								case "B_TRUNC":
+								case "OUT_BOTTOM":							
+									if (a.floating.floatOnBottom) {
+										//b.resume();
+										d.addClass(f, d.floatingCSS);
+										b.resize(a.floating.maxwidth, a.floating.maxwidth*9/16);
+										a.floating.closeButton &&
+										b.updateGui({
+                                            logo: !0,
+											closefloat: !0,
+											swipebar: !0
+										});
+									}
+								default:
+									a.pauseOnUnseen && b.pause();
+							}
+						} else {
+							a.pauseOnUnseen && b.pause();
+						}
+					}
+				}, h, a.iframeViewability)) : (a.sticky && 0 < a.sticky.size && (a.sticky.position.toLowerCase() == "interstitial" && d.addClass(viCont, d.interCSS)) && ("" == a.preloader.type || a.hideInitPreloader ? (d.addClass(f, d.stickyCSS), d.hidePlayer(viCont, c, f)) : d.addClass(f, d.stickyCSS)), d.startAdFirstTime = !1, d.playerInView = !0, d.playerLoadedFirstTime = !0, d.startAd(), c && (c.style.opacity = ""), a.hideInitPreloader ? d.hidePlayer(viCont, c, f) : d.showPlayer(viCont, c, f));
+				
+				if (a.closeSwipe && a.mobile) {
+					var touchsurface = c,
+					startX,
+					startY,
+					dist,
+					threshold = 100, //required min distance traveled to be considered swipe
+					allowedTime = 250, // maximum time allowed to travel that distance
+					elapsedTime,
+					startTime;
+					
+					touchsurface.addEventListener('touchstart', function(e){
+						if (b.viewState == "IN_VVIEW") return;
+					    var touchobj = e.changedTouches[0];
+					    dist = 0;
+					    startX = touchobj.pageX;
+					    startY = touchobj.pageY;
+					    startTime = new Date().getTime(); // record time when finger first makes contact with surface
+					    //e.preventDefault();
+					}, false);
+	
+					touchsurface.addEventListener('touchmove', function(e){
+						if (b.viewState == "IN_VVIEW") return;
+					    e.preventDefault(); // prevent scrolling when inside DIV
+					}, false);
+	
+					touchsurface.addEventListener('touchend', function(e){
+						if (b.viewState == "IN_VVIEW") return;
+					    var touchobj = e.changedTouches[0];
+					    dist = touchobj.pageY - startY; // get total dist traveled by finger while in contact with surface
+					    elapsedTime = new Date().getTime() - startTime; // get time elapsed
+						// check that elapsed time is within specified, horizontal dist traveled >= threshold, and vertical dist traveled <= 100
+						var swiperightBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageX - startX) <= 100);
+						
+						if (swiperightBol) {
+							if (a.closeevent || b.viewState == "OUT_TOP" && a.floating && 0 < a.floating.size && a.floating.closeButton) {
+								(d.addClass(f, ""), d.showPlayer(viCont, c, f), a.floating && 0 < a.floating.size && a.floating.closeButton && b.updateGui({
+									closefloat: !1,
+									swipebar: !1
+								}), a.floating.size = 0, b.pause())
+							} else {
+								d.hidePlayer(viCont, c, f), b.destroy();
+							}
+							e.preventDefault();
+						}					
+					}, false);
+				}
+			}
+		};
+		b.startTemplate = function (a) {
+			H.startViewability(a)
+		}
+	}
+})(window);

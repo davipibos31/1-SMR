@@ -1,0 +1,434 @@
+#ez-cookie-dialog-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    font-family: Arial, serif !important;
+    z-index: 2000000000 !important;
+    overflow-y: auto !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table-box {
+    overflow-y: auto !important;
+    max-height: 150px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .select-wrapper span,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .select-wrapper ul,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .select-wrapper input {
+    display: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog {
+    display: block !important;
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin: 30px auto 0 !important;
+    width: 650px !important;
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+    max-width: 90% !important;
+    background: #ffffff !important;
+    padding: 12px 24px !important;
+    overflow: hidden !important;
+    z-index: 2000000000 !important;
+    border: 10px solid #5fa624 !important;
+    box-shadow: #333 1px 1px 10px 1px !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog h2 {
+    font-size: 20px !important;
+    line-height: 16px !important;
+    font-weight: 700 !important;
+    margin: 10px 0 16px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog p {
+    margin: 12px 0 !important;
+    line-height: 16px !important;
+    text-indent: 0 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog button {
+    line-height: 16px !important;
+    text-transform: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog select,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog input {
+    display: inline-block !important;
+    position: relative !important;
+    opacity: 1 !important;
+    margin: 3px !important;
+    font-size: 13px !important;
+    background-color: #ffffff !important;
+    width: initial !important;
+    padding: 0 !important;
+    border: 1px solid #000000 !important;
+    border-radius: 0 !important;
+    height: initial !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog a,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog p,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog h2,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog button {
+    color: #000000 !important;
+    font-style: normal !important;
+    text-decoration: none !important;
+    font-variant: normal !important;
+    font-family: Arial, serif !important;
+    box-shadow: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog p,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details-description,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog button {
+    font-weight: 400 !important;
+    font-size: 10pt !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details-description {
+    padding: 10px 0 5px !important;
+    color: rgb(51, 51, 51) !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details {
+    height: 34px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-about-cookies {
+    display: table-cell !important;
+    color: #5fa624 !important;
+    vertical-align: bottom !important;
+    position: relative !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details:after {
+    width: 0px !important;
+    height: 0px !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+    border-top: 4px solid #5fa624 !important;
+    content: "" !important;
+    position: absolute !important;
+    right: -14px !important;
+    bottom: 6px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details.open:after {
+    border-bottom: 4px solid #5fa624 !important;
+    border-top: 0 solid transparent !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-about-cookies-text {
+    display: none !important;
+    margin-top: 12px !important;
+    text-align: left !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-switch-view-btn {
+    border: 1px solid #000000 !important;
+    font-family: Arial, serif !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    padding: 10px 20px 10px 20px !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-switch-view-btn:hover {
+    cursor: pointer !important;
+    background: #ffffff !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-save-settings {
+    border: none !important;
+    font-family: Arial, serif !important;
+    color: #ffffff !important;
+    background: #000000 !important;
+    padding: 10px 20px 10px 20px !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-save-settings:hover {
+    cursor: pointer !important;
+    background: #000000 !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-accept-all {
+    border: none !important;
+    font-family: Arial, serif !important;
+    color: #ffffff !important;
+    background: #5fa624 !important;
+    padding: 10px 20px 10px 20px !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-accept-all:hover {
+    cursor: pointer !important;
+    background: #5fa624 !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #privacy-link {
+    font-size: 12px !important;
+    display: block !important;
+    margin-top: 20px !important;
+    text-decoration: underline !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-ok-cookies {
+    border: 1px solid #ffffff !important;
+    font-family: Arial, serif !important;
+    font-size: 9pt !important;
+    color: #000 !important;
+    background: #ffffff !important;
+    padding: 5px 15px !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-ok-cookies:hover {
+    cursor: pointer !important;
+    background: #ffffff !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-about-cookies-container {
+    margin: 32px auto 12px !important;
+    width: 100% !important;
+    display: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog a {
+    color: #5fa624 !important;
+    text-decoration: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #privacy {
+    text-align: right !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-options {
+    display: flex !important;
+    flex-direction: row !important;
+    margin: 12px 0 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-details-container {
+    display: none !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cookie-option {
+    flex: 1 !important;
+    font-family: Arial, serif !important;
+    font-size: 9pt !important;
+    display: block !important;
+    line-height: 26px !important;
+    color: #000000 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cookie-option label {
+    cursor: pointer !important;
+    font-size: 12px !important;
+    color: #000000 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table {
+    max-width: 525px !important;
+    width: 525px !important;
+    margin-top: 12px !important;
+    font-family: Arial, serif !important;
+    border-spacing: 1px !important;
+    font-size: 8pt !important;
+    border-collapse: separate !important;
+    background-color: #ffffff !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table th {
+    background-color: #ffffff !important;
+    color: rgb(51, 51, 51) !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #button-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    margin-right: 10px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #secondary-links {
+    display: flex !important;
+    font-size: 12px !important;
+    margin-top: 20px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #secondary-links .bar {
+    margin: 0 5px !important;
+    width:auto!important;
+    height:auto!important;
+    position:relative!important;
+    background:0 0!important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table td {
+    background-color: #ffffff !important;
+    font-size: 8pt !important;
+    width: 30% !important;
+    -ms-word-break: break-word !important;
+    word-break: break-word !important;
+    color: #000000 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table td:nth-child(1) {
+    width: 30% !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table td:nth-child(2) {
+    width: 50% !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table td:nth-child(3) {
+    width: 20% !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table th,
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table td {
+    text-align: left !important;
+    padding: 3px !important;
+    vertical-align: top !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cookie-option input {
+    vertical-align: middle !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-language {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    color: #000000 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-header-row {
+    border: 1px solid #000000 !important;
+    background-color: #ffffff !important;
+    margin-bottom: 2px;
+    overflow: auto;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog h3 {
+    color: #000000 !important;
+    margin-bottom: 3px !important;
+    margin-top: 6px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-header-row .ez-cmp-header-left {
+    text-align: left !important;
+    float: left !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-header-row .ez-cmp-header-right {
+    text-align: right !important;
+    float: right !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-header-row label.ez-cmp-checkbox-label {
+    color: #000000 !important;
+    font-size: 10px !important;
+    display: inline-block !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-description {
+    color: #000000 !important;
+    font-size: 12px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-toggle-description {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    color: #5fa624 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-visible-content-wrapper {
+    max-height: 400px !important;
+    overflow-y: scroll !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-description p {
+    margin: 2px 0 !important;
+    font-size: 11px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-purpose .ez-cmp-description ul {
+    margin: 2px 0 !important;
+    font-size: 11px !important;
+    color: #000000 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-description h4 {
+    margin: 6px 0 3px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-description ul {
+    margin: 1px 0 !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-description {
+    margin: -2px 4px 2px 4px !important;
+    border: 1px solid #000000 !important;
+    border-top: 0px !important;
+    background-color: #ffffff !important;
+    padding: 3px !important;
+}
+
+#ez-cookie-dialog-wrapper #ez-cookie-dialog .ez-cmp-header-name {
+    color: #000000 !important;
+    padding-left: 3px !important;
+}
+
+@media only screen and (max-width: 600px) {
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog {
+        margin-top: 5px !important;
+        width: 100% !important;
+        padding: 10px !important;
+        border-width: 5px !important;
+    }
+
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog #button-row {
+        flex-direction: column !important;
+    }
+
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-options {
+        flex-direction: column !important;
+    }
+
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-necessary-cookies {
+        margin-bottom: 5px !important;
+    }
+
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog h2 {
+        margin: 5px 0 !important;
+        font-size: 16px !important;
+    }
+
+    #ez-cookie-dialog-wrapper #ez-cookie-dialog #ez-cookie-table-box {
+        overflow-y: auto !important;
+        max-height: 100px !important;
+    }
+}
+
+.cDuration {
+    display: none;
+}

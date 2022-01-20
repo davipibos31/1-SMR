@@ -1,0 +1,12 @@
+ El volumen de la unidad C no tiene etiqueta.
+ El n£mero de serie del volumen es: 86D9-7CB8
+
+ Directorio de c:\
+
+19/03/2019  05:52    <DIR>          PerfLogs
+11/02/2020  18:38    <DIR>          Program Files
+13/02/2020  18:33    <DIR>          Program Files (x86)
+03/02/2020  18:13    <DIR>          Users
+14/02/2020  15:32    <DIR>          Windows
+               0 archivos              0 bytes
+               5 dirs  2.168.385.912.832 bytes libres

@@ -1,0 +1,91 @@
+h1{
+	color: #339966;
+}
+
+h2{
+	color: blue;
+}
+
+a{
+	color: red;
+	text-decoration: underline red; 
+}
+
+td em{
+	color: green;
+	text-decoration: none;
+}
+
+em{
+	color: blue;
+	text-decoration: underline red;
+}
+
+strong{
+	color: red;
+	font-weight: bold;
+}
+
+span.destacado{
+	color: orange;
+}
+
+span.especial{
+	color: purple;
+}
+
+caption{
+	color: blue;
+}
+
+#especial {
+	color: #ff00ff;
+}
+
+#adicional p{
+	color: #847c00;
+}
+
+th.especial{
+	color: #ffcc00;
+}
+div p a{
+	color: green;
+	text-decoration: underline green;
+}
+
+th {
+	color: red;
+}
+
+td strong{
+	color: #ffcc00;
+}
+
+td{
+	color: green;
+}
+
+table{
+	border: 1px solid;
+	border-collapse: collapse;
+	border-color: black;
+	
+}
+table th{
+	border:1px solid;
+	border-color: black;
+	text-align: center;
+	width: 150px;
+	height: 30px;
+}
+
+table td{
+	border: 1px solid;
+	border-color: black;
+	text-align: center;
+	height: 30px;
+}
+caption{
+	margin: 4px;
+}

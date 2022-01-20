@@ -1,0 +1,47 @@
+div{
+	background-color: #ccccff;
+	border: 1px solid #1a0000;
+}
+
+.lema{
+	border:1px solid #ff4000;
+	width: 33%;
+	float: left;
+}
+
+.enlaces{
+	border: 1px soloid #00ff40;
+	width: 66%;
+	float: right;
+}
+
+.publicidad{
+	border: 1px solid #0040ff;
+	width: 25%>;
+	height: 215px;
+	float: left;
+}
+
+.contenido{
+	border:	1px solid #bfff00;
+	width: 50%;
+	height: 215px;
+	float: left;
+}
+.maspublicidad{
+	border:	1px solid #00ffff;
+	width: 25%;
+	height: 215px;
+	float: left;
+}
+
+.copyright{
+	border:	1px solid #bf00ff;
+	width: 100%;
+	float: left;
+	clear:	both;
+}
+
+p{
+	text-align: center;
+}

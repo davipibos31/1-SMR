@@ -1,0 +1,1 @@
+"use strict";(function wrap(Unicode,go,$){Unicode.BlockStatic=go.Class(Unicode.BlockBase,{__construct:function __construct(node){this.node=$(node);this.setNum(parseInt(node.data("num"),10));Unicode.BlockBase.__construct(this);}});})(Unicode,go,jQuery);

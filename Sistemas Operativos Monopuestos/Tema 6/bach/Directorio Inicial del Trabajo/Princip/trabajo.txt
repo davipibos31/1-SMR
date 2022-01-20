@@ -1,0 +1,1 @@
+Hay una forma de eliminar los archivos y carpetas de forma permanente sin tener que enviarlos a la papelera de reciclaje. En las Propiedades de la Papelera de reciclaje, activaremos la casilla No mover archivos a la papelera de reciclaje.
